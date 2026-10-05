@@ -18,7 +18,7 @@ Portal state is primary. The commands below are facilitator verification aids.
 
 ## Cost defaults and end-of-lab teardown
 
-The ARM-owned footprint intentionally remains available for the lab: `Standard_B2s` is retained for the CloudLabs jump box, all three workload VMs, and the AKS agent pool; `Standard_LRS` is retained for managed OS disks and the storage account. No auto-shutdown schedule is deployed. The expected maximum runtime is 8 hours. **The author/facilitator, not the learner, owns cleanup immediately after the session and must not wait for browser CSV download state.** Preserve the AKS cluster and imported vulnerable image until all required evidence and validation are complete.
+The ARM-owned footprint intentionally remains available for the lab: `Standard_B2als_v2` is retained for the CloudLabs jump box and all three workload VMs, and `Standard_B2as_v2` for the AKS agent pool; `Standard_LRS` is retained for managed OS disks and the storage account. No auto-shutdown schedule is deployed. The expected maximum runtime is 8 hours. **The author/facilitator, not the learner, owns cleanup immediately after the session and must not wait for browser CSV download state.** Preserve the AKS cluster and imported vulnerable image until all required evidence and validation are complete.
 
 Use the correct subscription context and delete the workload resource group after the lab:
 

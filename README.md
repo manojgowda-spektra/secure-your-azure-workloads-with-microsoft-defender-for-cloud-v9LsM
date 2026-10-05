@@ -60,7 +60,7 @@ The package contains one ARM deployment stage using the canonical CloudLabs Azur
 
 `https://experienceazure.blob.core.windows.net/templates/cloudlabs-common/CloudLabsCommon.ps1`
 
-The deployment creates the Azure workload, identities and role assignments, fixed image deployment, and pre-session Defender configuration. It does not create the Logic App, workflow automation rule, custom standard, JIT policy, or learner secrets in ARM outputs. The retained cost defaults are `Standard_B2s` for the lab VM, workload VMs, and AKS agent pool, and `Standard_LRS` for managed OS disks and the storage account. No auto-shutdown schedule is deployed.
+The deployment creates the Azure workload, identities and role assignments, fixed image deployment, and pre-session Defender configuration. It does not create the Logic App, workflow automation rule, custom standard, JIT policy, or learner secrets in ARM outputs. The retained cost defaults are `Standard_B2als_v2` for the lab VM and the three workload VMs, `Standard_B2as_v2` for the AKS agent pool, and `Standard_LRS` for managed OS disks and the storage account. No auto-shutdown schedule is deployed.
 
 ## End-of-Lab Cleanup — Author/Facilitator Operation
 

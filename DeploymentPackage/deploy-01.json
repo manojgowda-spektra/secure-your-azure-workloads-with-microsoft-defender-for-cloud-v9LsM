@@ -225,7 +225,7 @@
       },
       "properties": {
         "hardwareProfile": {
-          "vmSize": "Standard_B2s"
+          "vmSize": "Standard_B2als_v2"
         },
         "osProfile": {
           "computerName": "[variables('LabVMName')]",
@@ -414,7 +414,7 @@
           {
             "name": "agentpool",
             "count": 1,
-            "vmSize": "Standard_B2s",
+            "vmSize": "Standard_B2as_v2",
             "osType": "Linux",
             "mode": "System",
             "type": "VirtualMachineScaleSets"
@@ -517,7 +517,7 @@
       ],
       "properties": {
         "hardwareProfile": {
-          "vmSize": "Standard_B2s"
+          "vmSize": "Standard_B2als_v2"
         },
         "osProfile": {
           "computerName": "asclab-win",
@@ -563,7 +563,7 @@
       ],
       "properties": {
         "hardwareProfile": {
-          "vmSize": "Standard_B2s"
+          "vmSize": "Standard_B2als_v2"
         },
         "osProfile": {
           "computerName": "asclab-win2",
@@ -606,7 +606,7 @@
       ],
       "properties": {
         "hardwareProfile": {
-          "vmSize": "Standard_B2s"
+          "vmSize": "Standard_B2als_v2"
         },
         "osProfile": {
           "computerName": "asclab-linux",
