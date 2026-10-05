@@ -1,0 +1,274 @@
+{
+  "packageId": "8e3f014d-0f5a-4ccb-a489-c4419c38dc97",
+  "slug": "secure-your-azure-workloads-with-microsoft-defender-for-cloud-v9LsM",
+  "title": "Secure Your Azure Workloads with Microsoft Defender for Cloud",
+  "version": 1,
+  "exportedAt": "2026-10-05T11:57:47.757Z",
+  "exportTarget": "github_new_repo",
+  "force": false,
+  "deliverableConfig": {
+    "arm": {
+      "stages": 1,
+      "enabled": true
+    },
+    "cse": {
+      "enabled": true
+    },
+    "rbac": {
+      "enabled": false
+    },
+    "policy": {
+      "enabled": false
+    },
+    "readme": {
+      "enabled": true
+    },
+    "labGuide": {
+      "enabled": true,
+      "exercises": 6
+    },
+    "solution": {
+      "enabled": true
+    },
+    "questions": {
+      "count": 0,
+      "enabled": false
+    },
+    "specSheet": {
+      "enabled": true
+    },
+    "validations": {
+      "count": 6,
+      "enabled": true
+    }
+  },
+  "artifacts": [
+    {
+      "path": "DeploymentPackage/deploy-01.json",
+      "kind": "arm",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "DeploymentPackage/deploy-01.parameters.json",
+      "kind": "arm_params",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "DeploymentPackage/psscript-01.ps1",
+      "kind": "psscript",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/challenge-1.md",
+      "kind": "exercise_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/challenge-2.md",
+      "kind": "exercise_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/challenge-3.md",
+      "kind": "exercise_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/challenge-4.md",
+      "kind": "exercise_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/challenge-5.md",
+      "kind": "exercise_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/challenge-6.md",
+      "kind": "exercise_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/Exercise-01.md",
+      "kind": "exercise_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/Exercise-02.md",
+      "kind": "exercise_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/Exercise-03.md",
+      "kind": "exercise_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/Exercise-04.md",
+      "kind": "exercise_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/Exercise-05.md",
+      "kind": "exercise_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/Exercise-06-Automate-and-Prove.md",
+      "kind": "exercise_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/GettingStarted-V2.md",
+      "kind": "getting_started",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/masterdoc.json",
+      "kind": "masterdoc",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/Lab Guide/overview.md",
+      "kind": "readme_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "README.md",
+      "kind": "readme_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "solution-guide/solution.md",
+      "kind": "solution_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "Spec.md",
+      "kind": "spec_md",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "Validations/01-task-validate-challenge-01.ps1",
+      "kind": "validation_ps1",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "Validations/02-task-strengthen-posture.ps1",
+      "kind": "validation_ps1",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "Validations/03-task-protect-workloads.ps1",
+      "kind": "validation_ps1",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "Validations/05-task-harden-vm-access.ps1",
+      "kind": "validation_ps1",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "Validations/06-task-automate-and-prove.ps1",
+      "kind": "validation_ps1",
+      "lintStatus": "passed"
+    },
+    {
+      "path": "Validations/validate-challenge-01.ps1",
+      "kind": "validation_ps1",
+      "lintStatus": "warn"
+    },
+    {
+      "path": "Validations/validate-challenge-02.ps1",
+      "kind": "validation_ps1",
+      "lintStatus": "warn"
+    },
+    {
+      "path": "Validations/validate-challenge-03.ps1",
+      "kind": "validation_ps1",
+      "lintStatus": "warn"
+    },
+    {
+      "path": "Validations/validate-challenge-04.ps1",
+      "kind": "validation_ps1",
+      "lintStatus": "warn"
+    },
+    {
+      "path": "Validations/validate-challenge-05.ps1",
+      "kind": "validation_ps1",
+      "lintStatus": "warn"
+    },
+    {
+      "path": "Validations/validate-challenge-06.ps1",
+      "kind": "validation_ps1",
+      "lintStatus": "warn"
+    },
+    {
+      "path": "LabGuidePackage/Lab Guide/masterdoc.json",
+      "kind": "masterdoc",
+      "lintStatus": null
+    },
+    {
+      "path": "template-config.json",
+      "kind": "template_config",
+      "lintStatus": null
+    }
+  ],
+  "errors": [],
+  "coherence": [
+    {
+      "severity": "error",
+      "rule": "coherence-validator-requires-unprovisioned",
+      "message": "\"Validations/02-task-strengthen-posture.ps1\" requires resource types the deployment templates never create: Microsoft.Security/securityStandards, Microsoft.Authorization/policyDefinitions/2a1a9cdf. A correctly-deployed lab can never pass this validator — either deploy the resource or rewrite the check against what the template actually provisions.",
+      "artifactPath": "Validations/02-task-strengthen-posture.ps1"
+    },
+    {
+      "severity": "error",
+      "rule": "coherence-validator-requires-unprovisioned",
+      "message": "\"Validations/03-task-protect-workloads.ps1\" requires resource type the deployment templates never create: Microsoft.Security/alerts. A correctly-deployed lab can never pass this validator — either deploy the resource or rewrite the check against what the template actually provisions.",
+      "artifactPath": "Validations/03-task-protect-workloads.ps1"
+    },
+    {
+      "severity": "error",
+      "rule": "coherence-validator-requires-unprovisioned",
+      "message": "\"Validations/05-task-harden-vm-access.ps1\" requires resource type the deployment templates never create: Microsoft.Security/locations/eastus/jitNetworkAccessPolicies/default. A correctly-deployed lab can never pass this validator — either deploy the resource or rewrite the check against what the template actually provisions.",
+      "artifactPath": "Validations/05-task-harden-vm-access.ps1"
+    },
+    {
+      "severity": "error",
+      "rule": "coherence-validator-requires-unprovisioned",
+      "message": "\"Validations/06-task-automate-and-prove.ps1\" requires resource types the deployment templates never create: Microsoft.Security/automations/, Microsoft.Logic/workflows. A correctly-deployed lab can never pass this validator — either deploy the resource or rewrite the check against what the template actually provisions.",
+      "artifactPath": "Validations/06-task-automate-and-prove.ps1"
+    },
+    {
+      "severity": "error",
+      "rule": "coherence-validator-requires-unprovisioned",
+      "message": "\"Validations/validate-challenge-02.ps1\" requires resource type the deployment templates never create: Microsoft.Security/securityStandards. A correctly-deployed lab can never pass this validator — either deploy the resource or rewrite the check against what the template actually provisions.",
+      "artifactPath": "Validations/validate-challenge-02.ps1"
+    },
+    {
+      "severity": "error",
+      "rule": "coherence-validator-requires-unprovisioned",
+      "message": "\"Validations/validate-challenge-03.ps1\" requires resource type the deployment templates never create: Microsoft.Security/alerts. A correctly-deployed lab can never pass this validator — either deploy the resource or rewrite the check against what the template actually provisions.",
+      "artifactPath": "Validations/validate-challenge-03.ps1"
+    },
+    {
+      "severity": "error",
+      "rule": "coherence-validator-requires-unprovisioned",
+      "message": "\"Validations/validate-challenge-06.ps1\" requires resource types the deployment templates never create: Microsoft.Security/automations, Microsoft.Logic/workflows. A correctly-deployed lab can never pass this validator — either deploy the resource or rewrite the check against what the template actually provisions.",
+      "artifactPath": "Validations/validate-challenge-06.ps1"
+    },
+    {
+      "severity": "warning",
+      "rule": "coherence-vm-missing-auto-shutdown",
+      "message": "The template deploys a virtual machine but no auto-shutdown schedule — the VM keeps billing after the session ends. Add a Microsoft.DevTestLab/schedules resource per VM (taskType \"ComputeVmShutdownTask\", name \"shutdown-computevm-<vmName>\") with a dailyRecurrence time.",
+      "artifactPath": "DeploymentPackage/deploy-01.json"
+    }
+  ],
+  "runnability": {
+    "issues": [],
+    "blocking": 0,
+    "warning": 0,
+    "info": 0
+  }
+}
