@@ -92,6 +92,27 @@ If the jump-box access aid is no longer needed, the facilitator separately delet
 
 Preconfigured and soaked for 48 hours: Defender CSPM, Defender for Servers Plan 2, agentless machine scanning, and Microsoft Defender for Endpoint integration. Learners enable Defender for Storage, Defender for Key Vault, Defender for SQL, and Defender for Containers.
 
+> **Operator prerequisite — the Defender plans are not enabled by the ARM template.**
+>
+> `Microsoft.Security/pricings` is a **subscription-scoped** resource type and this template
+> deploys at resource-group scope, so ARM rejects it:
+> *"The scopeId '/subscriptions/.../resourcegroups/...' is not supported. Supported scopes are
+> subscription id or resource id."* An resource-group-scoped template cannot create it, and it
+> cannot grant itself a subscription-scoped role assignment to do it from a script either.
+>
+> Before the environment is pre-deployed, someone with Security Admin or Owner on the lab
+> subscription must run:
+>
+> ```bash
+> az security pricing create -n CloudPosture --tier standard
+> az security pricing create -n VirtualMachines --tier standard --subplan P2 >   --extensions name=AgentlessVmScanning isEnabled=True
+> ```
+>
+> This must happen **before** the 48-hour soak starts, not after. Challenge 1 asks the learner to
+> confirm these are already on, and Challenges 5 and 6 depend on agentless scanning results and the
+> cloud security graph, which only populate once the plans are enabled and a full scan cycle has
+> run.
+
 The workflow automation rule is a supported Defender for Cloud recommendation trigger: it is enabled, scoped to high-severity recommendations only, and targets the named Logic App. The six PowerShell validators check strict observable resource and Defender states, including the named standard, plans, sample alerts, fixed image, JIT values, automation objects, and healthy attack-path recommendation. Validators do not assert a secure-score value or delta, do not assert disappearance of an attack path, and do not inspect a browser CSV download. No RBAC artifact or Azure Policy artifact is included; the Challenge 2 standard uses the named built-in policy definition through Defender for Cloud's custom-standard experience rather than ARM deployment.
 
 ## Package Contents
