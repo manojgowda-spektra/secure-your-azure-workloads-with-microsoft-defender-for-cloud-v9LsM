@@ -8,7 +8,7 @@ Contoso's deliberately vulnerable workload exposes storage and database services
 
 ## Overview
 
-Work in the **asclab — deployment <inject key="DeploymentID" enableCopy="false"/>** workload resource group. Resource names include a deployment-specific suffix, so select each resource in lab resource group rather than guessing the suffix.
+Work in the **asclab — deployment <inject key="DeploymentID" enableCopy="false"/>** workload resource group. Resource names include a deployment-specific suffix, so select each resource in the lab resource group rather than guessing the suffix.
 
 You will:
 
@@ -44,7 +44,7 @@ In this task, establish the starting state before changing resources.
 
 In this task, disable public network access, require TLS 1.2, and require HTTPS for the `asclabsa*` storage account.
 
-1. Open the storage account whose name begins with `asclabsa` in lab resource group.
+1. Open the storage account whose name begins with `asclabsa` in the lab resource group.
 2. Under **Settings**, select **Configuration**.
 3. Set **Minimum TLS version** to **Version 1.2**.
 4. Set **Secure transfer required** to **Enabled**. This setting requires requests to use HTTPS.
@@ -61,12 +61,12 @@ In this task, disable public network access, require TLS 1.2, and require HTTPS 
 
 In this task, disable the workload SQL server's public network access and enable recoverability for the Key Vault.
 
-1. Open the logical SQL server whose name begins with `asclab-sql` in lab resource group. If you opened `asclab-db`, select its server link first.
+1. Open the logical SQL server whose name begins with `asclab-sql` in the lab resource group. If you opened `asclab-db`, select its server link first.
 2. Under **Security**, select **Networking**.
 3. In **Public access** or **Public network access**, set **Public network access** to **Disabled**, then select **Save**. This is the single authoritative graded SQL state and closes the public endpoint rather than adding another allow rule.
 4. Only if the portal or API does not expose **Public network access**, use **Selected networks** as a fallback: remove every internet firewall rule, turn off **Allow Azure services and resources to access this server**, and save. Do not leave a `0.0.0.0` rule.
 5. Verify the SQL networking page or API shows **Public network access: Disabled** when available. The validator grades **Disabled** when that state is exposed; firewall-rule removal is only the conditional fallback when public network access cannot be surfaced.
-6. Open the Key Vault whose name begins with `asclab-kv` in lab resource group.
+6. Open the Key Vault whose name begins with `asclab-kv` in the lab resource group.
 7. Under **Settings**, select **Properties**.
 8. In **Soft-delete**, select **Enable Recovery** or the equivalent enabled recovery option, and select **Save**. If soft delete is already enabled, leave it enabled and continue.
 9. Refresh **Properties** and verify that soft delete is enabled. Do not delete the vault, purge a deleted vault, or change secrets.

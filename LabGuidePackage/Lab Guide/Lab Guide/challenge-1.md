@@ -4,7 +4,7 @@
 
 ## Scenario
 
-Contoso has deployed a deliberately vulnerable Azure workload and allowed Microsoft Defender for Cloud to assess it for 48 hours before this session. Your first responsibility is to establish an evidence-based baseline without changing the preconfigured security posture. You will confirm the subscription context, distinguish the workload lab resource group from the CloudLabs access lab resource group, inspect the Defender for Cloud overview, and verify the capabilities that are already enabled.
+Contoso has deployed a deliberately vulnerable Azure workload and allowed Microsoft Defender for Cloud to assess it for 48 hours before this session. Your first responsibility is to establish an evidence-based baseline without changing the preconfigured security posture. You will confirm the subscription context, identify the lab resource group and distinguish the `asclab-*` workload resources from the CloudLabs jump box, inspect the Defender for Cloud overview, and verify the capabilities that are already enabled.
 
 ## Overview
 

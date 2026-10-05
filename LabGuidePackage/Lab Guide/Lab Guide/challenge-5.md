@@ -34,7 +34,7 @@ The bounded access request must use exactly `PT15M`. The validation checks both 
 3. Confirm that the selected subscription is the subscription used for deployment. If more than one subscription is listed, select the one associated with deployment <inject key="DeploymentID" enableCopy="false"/>.
 
 > [!Important]
-> Work only with the workload lab resource group. The separate lab resource group contains the access jump box and is not the target of this challenge.
+> Work only with the `asclab-*` workload resources. The jump box in the same resource group is an access aid and is not the target of this challenge.
 
 ## Task 1: Configure JIT for the Windows VM
 
@@ -44,7 +44,7 @@ Protect the RDP management port on **asclab-win**.
    - **Microsoft Defender for Cloud:** search for and open **Microsoft Defender for Cloud**, select **Workload protections**, and select **Just-in-time VM access** in the advanced protections area.
    - **Virtual machines:** search for and open **Virtual machines**, select **asclab-win**, select **Configuration**, and under **Just-in-time access** select **Enable just-in-time**.
 2. If you used the **Virtual machines** route, the default JIT configuration is now enabled for **asclab-win**. For detailed editing, return to **Microsoft Defender for Cloud > Just-in-time VM access**, open the **Configured** tab, right-click **asclab-win**, and select **Edit**.
-3. If you used the **Microsoft Defender for Cloud** route, open the **Not configured** tab, locate **asclab-win** in lab resource group, select it, and select **Enable JIT on VMs**.
+3. If you used the **Microsoft Defender for Cloud** route, open the **Not configured** tab, locate **asclab-win** in the lab resource group, select it, and select **Enable JIT on VMs**.
 4. In **JIT VM access configuration**, retain or add the RDP entry for port `3389`.
 5. Set the protocol to TCP, **Allowed source IPs** to **Any**, and **Maximum request time** to 3 hours. The required stored maximum is the ISO 8601 value `PT3H`.
 6. Select **OK**, then **Save**.
@@ -80,7 +80,7 @@ Open each management port for a short, controlled period and verify the effectiv
 2. Select port `3389`, set the source to **Any**, and choose an access duration of exactly 15 minutes. This is the portal representation of `PT15M`.
 3. Select **Open ports** and wait for the request to show as approved or active.
 4. Open the connection details for **asclab-win** and record the request time, expiry time, port, and source.
-5. Open **asclab-win** in lab resource group, select **Networking**, and inspect its associated NSG rules while the request is active. Confirm the temporary allow state is scoped to the requested port and source.
+5. Open **asclab-win** in the lab resource group, select **Networking**, and inspect its associated NSG rules while the request is active. Confirm the temporary allow state is scoped to the requested port and source.
 6. Wait until the 15-minute window expires, or use the available close or revoke control after recording the active state. Refresh the NSG view and confirm the temporary allow state is no longer active.
 7. Repeat the request for **asclab-linux**, selecting port `22`, source **Any**, and exactly 15 minutes (`PT15M`). Record the active state and then allow it to expire or close it.
 
