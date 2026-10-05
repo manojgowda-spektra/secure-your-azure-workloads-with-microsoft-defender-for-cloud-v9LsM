@@ -183,8 +183,8 @@
         ]
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups',variables('labNsgName')]",
-        "[resourceId('Microsoft.Network/networkSecurityGroups',variables('workloadNsgName')]"
+        "[resourceId('Microsoft.Network/networkSecurityGroups',variables('labNsgName'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups',variables('workloadNsgName'))]"
       ]
     },
     {
@@ -195,8 +195,8 @@
       "dependsOn": [
         "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]",
         "[resourceId('Microsoft.Network/publicIPAddresses',concat('labvm-pip-',parameters('DeploymentID')))]",
-        "[resourceId('Microsoft.Network/publicIPAddresses',concat('labvm-pip-',parameters('DeploymentID')]",
-        "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName')]"
+        "[resourceId('Microsoft.Network/publicIPAddresses',concat('labvm-pip-',parameters('DeploymentID')))]",
+        "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -221,8 +221,7 @@
       "name": "[variables('LabVMName')]",
       "location": "eastus",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('LabVMName'),'-nic'))]",
-        "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('LabVMName')]"
+        "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('LabVMName'),'-nic'))]"
       ],
       "plan": {
         "name": "win2019",
@@ -430,7 +429,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]",
         "[resourceId('Microsoft.Network/publicIPAddresses','asclab-win-pip')]",
-        "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName')]"
+        "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -457,7 +456,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]",
         "[resourceId('Microsoft.Network/publicIPAddresses','asclab-win2-pip')]",
-        "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName')]"
+        "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -484,7 +483,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]",
         "[resourceId('Microsoft.Network/publicIPAddresses','asclab-linux-pip')]",
-        "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName')]"
+        "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -512,7 +511,6 @@
         "type": "SystemAssigned"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces','asclab-win-nic') ]",
         "[resourceId('Microsoft.Network/networkInterfaces','asclab-win-nic')]"
       ],
       "properties": {
@@ -559,7 +557,6 @@
         "type": "SystemAssigned"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces','asclab-win2-nic') ]",
         "[resourceId('Microsoft.Network/networkInterfaces','asclab-win2-nic')]"
       ],
       "properties": {
@@ -603,7 +600,6 @@
       "name": "asclab-linux",
       "location": "eastus",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces','asclab-linux-nic') ]",
         "[resourceId('Microsoft.Network/networkInterfaces','asclab-linux-nic')]"
       ],
       "properties": {
@@ -647,7 +643,6 @@
       "name": "[guid(resourceId('Microsoft.Storage/storageAccounts',variables('storageName')),'win-blob-contributor')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts',variables('storageName'))]",
-        "[resourceId('Microsoft.Compute/virtualMachines','asclab-win') ]",
         "[resourceId('Microsoft.Compute/virtualMachines','asclab-win')]"
       ],
       "properties": {
@@ -662,7 +657,6 @@
       "name": "[guid(resourceId('Microsoft.Storage/storageAccounts',variables('storageName')),'win2-blob-contributor')]",
       "dependsOn": [
         "[resourceId('Microsoft.Storage/storageAccounts',variables('storageName'))]",
-        "[resourceId('Microsoft.Compute/virtualMachines','asclab-win2') ]",
         "[resourceId('Microsoft.Compute/virtualMachines','asclab-win2')]"
       ],
       "properties": {
@@ -684,7 +678,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName'))]",
         "[resourceId('Microsoft.ContainerRegistry/registries',variables('acrName'))]",
-        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName')]"
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName'))]"
       ],
       "properties": {
         "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions','8311e382-0749-4cb8-b61a-304f252e45ec')]",
@@ -699,7 +693,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName'))]",
         "[resourceId('Microsoft.ContainerService/managedClusters','asclab-aks')]",
-        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName')]"
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName'))]"
       ],
       "properties": {
         "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions','b24988ac-6180-42a0-ab88-20f7382dd24c')]",
@@ -714,7 +708,7 @@
       "dependsOn": [
         "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts',variables('storageName'))]",
-        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName')]"
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName'))]"
       ],
       "properties": {
         "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions','ba92f5b4-2d11-453d-a403-e96b0029c9fe')]",
