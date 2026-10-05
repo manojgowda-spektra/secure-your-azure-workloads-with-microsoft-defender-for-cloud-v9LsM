@@ -276,17 +276,7 @@
           "defaultAction": "Allow",
           "bypass": "AzureServices"
         }
-      },
-      "resources": [
-        {
-          "type": "blobServices/containers",
-          "apiVersion": "2023-05-01",
-          "name": "default/asclab-public-container",
-          "properties": {
-            "publicAccess": "Blob"
-          }
-        }
-      ]
+      }
     },
     {
       "type": "Microsoft.KeyVault/vaults",
@@ -377,33 +367,7 @@
         "administratorLoginPassword": "[parameters('adminPassword')]",
         "publicNetworkAccess": "Enabled",
         "minimalTlsVersion": "1.0"
-      },
-      "resources": [
-        {
-          "type": "databases",
-          "apiVersion": "2023-08-01",
-          "name": "asclab-db",
-          "location": "eastus",
-          "sku": {
-            "name": "Basic",
-            "tier": "Basic",
-            "capacity": 5
-          },
-          "properties": {
-            "collation": "SQL_Latin1_General_CP1_CI_AS",
-            "maxSizeBytes": 104857600
-          }
-        },
-        {
-          "type": "firewallRules",
-          "apiVersion": "2023-08-01",
-          "name": "AllowAll",
-          "properties": {
-            "startIpAddress": "0.0.0.0",
-            "endIpAddress": "255.255.255.255"
-          }
-        }
-      ]
+      }
     },
     {
       "type": "Microsoft.ContainerRegistry/registries",
@@ -858,6 +822,47 @@
           "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Bypass -File psscript-01.ps1 -AzureUserName ',parameters('azureUserName'),' -AzurePassword ',parameters('azurePassword'),' -AzureTenantID ',tenant().tenantId,' -AzureSubscriptionID ',subscription().subscriptionId,' -DeploymentID ',parameters('DeploymentID'),' -vmAdminUsername ',parameters('adminUsername'),' -vmAdminPassword ',parameters('adminPassword'),' -trainerUserName ',parameters('trainerUserName'),' -trainerUserPassword ',parameters('trainerUserPassword'))]"
         }
       }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2023-05-01",
+      "name": "[concat(variables('storageName'),'/default/asclab-public-container')]",
+      "properties": {
+        "publicAccess": "Blob"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts',variables('storageName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Sql/servers/databases",
+      "apiVersion": "2023-08-01",
+      "name": "[concat(variables('sqlName'),'/asclab-db')]",
+      "location": "eastus",
+      "sku": {
+        "name": "Basic",
+        "tier": "Basic",
+        "capacity": 5
+      },
+      "properties": {
+        "collation": "SQL_Latin1_General_CP1_CI_AS",
+        "maxSizeBytes": 104857600
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers',variables('sqlName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Sql/servers/firewallRules",
+      "apiVersion": "2023-08-01",
+      "name": "[concat(variables('sqlName'),'/AllowAll')]",
+      "properties": {
+        "startIpAddress": "0.0.0.0",
+        "endIpAddress": "255.255.255.255"
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Sql/servers',variables('sqlName'))]"
+      ]
     }
   ],
   "outputs": {
