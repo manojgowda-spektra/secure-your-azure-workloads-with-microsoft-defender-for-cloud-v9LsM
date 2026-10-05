@@ -369,7 +369,7 @@
         "administratorLogin": "sqladmin",
         "administratorLoginPassword": "[parameters('adminPassword')]",
         "publicNetworkAccess": "Enabled",
-        "minimalTlsVersion": "1.0"
+        "minimalTlsVersion": "1.2"
       }
     },
     {
