@@ -2,7 +2,7 @@
   "name": "Secure Your Azure Workloads with Microsoft Defender for Cloud",
   "cloud": "azure",
   "level": "Advanced",
-  "deploymentDurationMinutes": 480,
+  "deploymentDurationMinutes": 30,
   "enableLabValidation": true,
   "hasInlineQuestions": false,
   "customPolicy": false,

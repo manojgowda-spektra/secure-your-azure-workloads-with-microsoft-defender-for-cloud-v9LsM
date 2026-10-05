@@ -3,7 +3,7 @@ Secure Your Azure Workloads with Microsoft Defender for Cloud
 Lab Overview
 • Cloud: Azure
 • Duration: 480 minutes
-• Exercises: 6 (Onboard and baseline, Strengthen posture, Protect workloads, Secure containers, Harden VM access, Automate and prove)
+• Challenges: 6 (Onboard and baseline, Strengthen posture, Protect workloads, Secure containers, Harden VM access, Automate and prove)
 • Validations: 6
 • Deployed services: Virtual Machine, Virtual Network, Network Security Group, Storage Account, Azure Key Vault, Azure SQL Database, Azure Container Registry, Azure Kubernetes Service, Microsoft Defender for Cloud
 • Scenario: Contoso runs a deliberately vulnerable Azure workload assessed by Microsoft Defender for Cloud. Learners investigate the baseline, remediate storage, SQL, Key Vault, container, and VM access findings, then configure automation, trace an attack path, and export MCSB compliance evidence.

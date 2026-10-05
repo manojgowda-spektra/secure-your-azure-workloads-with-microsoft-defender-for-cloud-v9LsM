@@ -1,46 +1,40 @@
 [
   {
-    "BaseURL": "https://github.com/CloudLabsAI/secure-your-azure-workloads-with-microsoft-defender-for-cloud",
+    "Name": "Secure Your Azure Workloads with Microsoft Defender for Cloud",
+    "Language": "English",
+    "BaseURL": "https://github.com/manojgowda-spektra/secure-your-azure-workloads-with-microsoft-defender-for-cloud-v9LsM",
     "Files": [
       {
-        "Order": 1,
-        "FileName": "overview.md",
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/CloudLabsAI/secure-your-azure-workloads-with-microsoft-defender-for-cloud/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/overview.md"
+        "RawFilePath": "https://raw.githubusercontent.com/manojgowda-spektra/secure-your-azure-workloads-with-microsoft-defender-for-cloud-v9LsM/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/overview.md",
+        "Order": 1
       },
       {
-        "Order": 2,
-        "FileName": "getting-started.md",
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/CloudLabsAI/secure-your-azure-workloads-with-microsoft-defender-for-cloud/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/getting-started.md"
+        "RawFilePath": "https://raw.githubusercontent.com/manojgowda-spektra/secure-your-azure-workloads-with-microsoft-defender-for-cloud-v9LsM/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/getting-started.md",
+        "Order": 2
       },
       {
-        "Order": 3,
-        "FileName": "challenge-1.md",
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/CloudLabsAI/secure-your-azure-workloads-with-microsoft-defender-for-cloud/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/challenge-1.md"
+        "RawFilePath": "https://raw.githubusercontent.com/manojgowda-spektra/secure-your-azure-workloads-with-microsoft-defender-for-cloud-v9LsM/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/challenge-1.md",
+        "Order": 3
       },
       {
-        "Order": 4,
-        "FileName": "challenge-2.md",
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/CloudLabsAI/secure-your-azure-workloads-with-microsoft-defender-for-cloud/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/challenge-2.md"
+        "RawFilePath": "https://raw.githubusercontent.com/manojgowda-spektra/secure-your-azure-workloads-with-microsoft-defender-for-cloud-v9LsM/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/challenge-2.md",
+        "Order": 4
       },
       {
-        "Order": 5,
-        "FileName": "challenge-3.md",
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/CloudLabsAI/secure-your-azure-workloads-with-microsoft-defender-for-cloud/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/challenge-3.md"
+        "RawFilePath": "https://raw.githubusercontent.com/manojgowda-spektra/secure-your-azure-workloads-with-microsoft-defender-for-cloud-v9LsM/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/challenge-3.md",
+        "Order": 5
       },
       {
-        "Order": 6,
-        "FileName": "challenge-4.md",
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/CloudLabsAI/secure-your-azure-workloads-with-microsoft-defender-for-cloud/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/challenge-4.md"
+        "RawFilePath": "https://raw.githubusercontent.com/manojgowda-spektra/secure-your-azure-workloads-with-microsoft-defender-for-cloud-v9LsM/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/challenge-4.md",
+        "Order": 6
       },
       {
-        "Order": 7,
-        "FileName": "challenge-5.md",
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/CloudLabsAI/secure-your-azure-workloads-with-microsoft-defender-for-cloud/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/challenge-5.md"
+        "RawFilePath": "https://raw.githubusercontent.com/manojgowda-spektra/secure-your-azure-workloads-with-microsoft-defender-for-cloud-v9LsM/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/challenge-5.md",
+        "Order": 7
       },
       {
-        "Order": 8,
-        "FileName": "challenge-6.md",
-        "RawFilePath": "https://docs-api.cloudlabs.ai/repos/raw.githubusercontent.com/CloudLabsAI/secure-your-azure-workloads-with-microsoft-defender-for-cloud/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/challenge-6.md"
+        "RawFilePath": "https://raw.githubusercontent.com/manojgowda-spektra/secure-your-azure-workloads-with-microsoft-defender-for-cloud-v9LsM/refs/heads/main/LabGuidePackage/Lab%20Guide/Lab%20Guide/challenge-6.md",
+        "Order": 8
       }
     ]
   }

@@ -1,7 +1,7 @@
 using namespace System.Net
 
 # $sub and $DID are injected by CloudLabs. JIT is learner-created Defender state.
-$rg='asclab';$count=0;$found=$false;$failure='JIT validation has not run.'
+$rg=(Get-AzResource -ErrorAction SilentlyContinue | Where-Object { $_.Name -like 'asclab*' } | Select-Object -First 1).ResourceGroupName; if(-not $rg){ throw 'Could not locate the lab resource group: no resource named asclab* found in the subscription.' };$count=0;$found=$false;$failure='JIT validation has not run.'
 function V($o,$n){if($null-eq $o){return $null};$p=$o.PSObject.Properties[$n];if($null-eq $p){return $null};$p.Value}
 function Reply($s,$m){if($s-eq 'Succeeded'){$body=@{Status = "Succeeded";Message = $m}|ConvertTo-Json -Compress}else{$body=@{Status = "Failed";Message = $m}|ConvertTo-Json -Compress};Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{StatusCode=[HttpStatusCode]::OK;Body=$body}) -Clobber}
 function Any($p){$x=V $p 'AllowedSourceAddressPrefix';if($null-ne $x -and [string]$x-in @('*','Any')){return $true};$x=V $p 'AllowedSourceAddressPrefixes';if($null-ne $x){$a=@($x|ForEach-Object{[string]$_});return $a.Count-eq 1 -and $a[0]-in @('*','Any')};return $false}

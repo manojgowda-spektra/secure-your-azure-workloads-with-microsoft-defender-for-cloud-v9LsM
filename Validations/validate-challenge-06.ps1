@@ -1,7 +1,7 @@
 using namespace System.Net
 
 # $sub and $DID are injected by CloudLabs. Learner/service-generated state is checked after deployment.
-$rg='asclab';$automationName='war-contoso-high-severity-recommendations';$logicAppName='la-contoso-defender-recommendations';$count=0;$found=$false;$last='No validation attempt completed.'
+$rg=(Get-AzResource -ErrorAction SilentlyContinue | Where-Object { $_.Name -like 'asclab*' } | Select-Object -First 1).ResourceGroupName; if(-not $rg){ throw 'Could not locate the lab resource group: no resource named asclab* found in the subscription.' };$automationName='war-contoso-high-severity-recommendations';$logicAppName='la-contoso-defender-recommendations';$count=0;$found=$false;$last='No validation attempt completed.'
 function T($o,$n){if($null-eq $o){return ''};$p=$o.PSObject.Properties[$n];if($null-eq $p -or $null-eq $p.Value){return ''};[string]$p.Value}
 function Reply($s,$m){if($s-eq 'Succeeded'){$body=@{Status = "Succeeded";Message = $m}|ConvertTo-Json -Depth 12 -Compress}else{$body=@{Status = "Failed";Message = $m}|ConvertTo-Json -Depth 12 -Compress};Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{StatusCode=[HttpStatusCode]::OK;Body=$body}) -Clobber}
 function J($id,$v){$r=Invoke-AzRestMethod -Path "$id`?api-version=$v" -Method GET -ErrorAction Stop;if([string]::IsNullOrWhiteSpace($r.Content)){throw "Azure returned empty content for '$id'."};$r.Content|ConvertFrom-Json -Depth 100}

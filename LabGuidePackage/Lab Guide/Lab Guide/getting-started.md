@@ -36,7 +36,7 @@ The workload is intentionally exposed so you can investigate before remediation.
 flowchart LR
     learner["Learner\nAzure portal"] --> mdc["Microsoft Defender for Cloud"]
     mdc --> rec["Recommendations\nalerts and graph"]
-    rec --> rg["Resource group: asclab"]
+    rec --> rg["Lab resource group (CloudLabs-created)"]
     rg --> vm["VMs: asclab-win\nasclab-win2\nasclab-linux"]
     rg --> data["Storage asclabsa*\nKey Vault asclab-kv*\nSQL asclab-sql*"]
     rg --> acr["ACR asclabcr*"]
@@ -53,8 +53,7 @@ flowchart LR
 | Component | Value |
 |---|---|
 | Region | `eastus` |
-| Workload resource group | `asclab` |
-| Access resource group | `lab-vm`; jump box **labvm-<inject key="DeploymentID" enableCopy="false"/>** |
+| Lab resource group | The single resource group CloudLabs created for this deployment. It holds every resource below, including the jump box **labvm-<inject key="DeploymentID" enableCopy="false"/>**. Identify it by the `asclab-*` resources it contains; the name itself varies per deployment. |
 | VMs | `asclab-win`, `asclab-win2`, `asclab-linux` |
 | Storage/container | `asclabsa*`, `asclab-public-container` |
 | Key Vault | `asclab-kv*`, three secrets |
@@ -80,5 +79,3 @@ For support, contact: cloudlabs-support@spektrasystems.com
 Live support is also available through [CloudLabs live chat](https://cloudlabs.ai/labs-support).
 
 Happy Learning!
-
-You have successfully completed the Hands-on Lab.

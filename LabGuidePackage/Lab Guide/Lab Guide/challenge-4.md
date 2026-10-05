@@ -8,7 +8,7 @@ Contoso runs a deliberately vulnerable container image in Azure Kubernetes Servi
 
 ## Overview
 
-Enable Defender for Containers, inspect the ACR vulnerability assessment, compare it with AKS runtime evidence, and review the available DevOps security information without creating a connector. The workload is in the **`asclab` resource group — deployment <inject key="DeploymentID" enableCopy="false"></inject>**. Use the Azure portal only.
+Enable Defender for Containers, inspect the ACR vulnerability assessment, compare it with AKS runtime evidence, and review the available DevOps security information without creating a connector. The workload is in the **lab resource group — deployment <inject key="DeploymentID" enableCopy="false"></inject>**. Use the Azure portal only.
 
 The deployment imported the public image with Azure Container Registry import. It did not use a local Docker installation, Docker build, build agent, registry credentials, or Docker Hub credentials. AKS runs the resulting ACR image reference with the exact repository and tag shown below.
 

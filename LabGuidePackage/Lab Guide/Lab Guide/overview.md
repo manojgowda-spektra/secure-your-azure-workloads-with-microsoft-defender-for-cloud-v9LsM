@@ -4,7 +4,7 @@
 
 This advanced Azure portal-only challenge lab places you in the role of Contoso's security owner. The `asclab` workload is intentionally vulnerable and has been assessed for 48 hours before the session. Use Microsoft Defender for Cloud to investigate the existing posture, remediate prioritized configuration risks, enable workload protections, inspect a fixed vulnerable container image and its AKS runtime, harden VM management access, automate high-severity recommendations, and export compliance evidence.
 
-The lab uses one Azure subscription and Owner access. All learner work is performed in the Azure portal. The CloudLabs jump box in resource group `lab-vm` is only an access aid; the workload is in resource group `asclab`.
+The lab uses one Azure subscription and Owner access. All learner work is performed in the Azure portal. The CloudLabs jump box in lab resource group is only an access aid; the workload is in lab resource group.
 
 ## What is provisioned
 
@@ -40,5 +40,3 @@ For support, contact: cloudlabs-support@spektrasystems.com
 Live support: <https://cloudlabs.ai/labs-support>
 
 Happy Learning!
-
-You have successfully completed the Hands-on Lab / Hackathon.

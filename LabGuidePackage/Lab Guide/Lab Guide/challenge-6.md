@@ -1,4 +1,4 @@
-# Challenge 6
+# Challenge 6: Automate Remediation and Prove Compliance
 
 ### Estimated Duration: 1.25 Hours
 
@@ -94,3 +94,9 @@ Perform a final state review before submitting the challenge.
 ## Summary
 
 You created **la-contoso-defender-recommendations** with the supported **When a Microsoft Defender for Cloud recommendation is created or triggered** connector trigger and a single **Compose** action, connected it to the enabled recommendation-only rule **war-contoso-high-severity-recommendations**, remediated the attack-path recommendation to a **Healthy** state, and exported the already-applied MCSB evidence as CSV. The validation checks the concrete Azure resource states; it does not inspect the browser download, require Secure Score movement, or require attack-path removal.
+
+## Conclusion
+
+You have successfully completed the Hands-on Lab / Hackathon.
+
+Happy Learning!
