@@ -718,7 +718,7 @@
       ],
       "properties": {
         "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions','7f951dda-4ed3-4680-a7ca-43fe172d538d')]",
-        "principalId": "[reference(resourceId('Microsoft.ContainerService/managedClusters','asclab-aks'),'2024-02-01','Full').identityProfile.kubeletidentity.objectId]",
+        "principalId": "[reference(resourceId('Microsoft.ContainerService/managedClusters','asclab-aks'),'2024-02-01','Full').properties.identityProfile.kubeletidentity.objectId]",
         "principalType": "ServicePrincipal"
       }
     },
