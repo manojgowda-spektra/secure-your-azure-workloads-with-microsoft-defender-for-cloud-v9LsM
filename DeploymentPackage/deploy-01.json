@@ -194,9 +194,7 @@
       "location": "eastus",
       "dependsOn": [
         "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]",
-        "[resourceId('Microsoft.Network/publicIPAddresses',concat('labvm-pip-',parameters('DeploymentID')))]",
-        "[resourceId('Microsoft.Network/publicIPAddresses',concat('labvm-pip-',parameters('DeploymentID')))]",
-        "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]"
+        "[resourceId('Microsoft.Network/publicIPAddresses',concat('labvm-pip-',parameters('DeploymentID')))]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -428,8 +426,7 @@
       "location": "eastus",
       "dependsOn": [
         "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]",
-        "[resourceId('Microsoft.Network/publicIPAddresses','asclab-win-pip')]",
-        "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]"
+        "[resourceId('Microsoft.Network/publicIPAddresses','asclab-win-pip')]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -455,8 +452,7 @@
       "location": "eastus",
       "dependsOn": [
         "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]",
-        "[resourceId('Microsoft.Network/publicIPAddresses','asclab-win2-pip')]",
-        "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]"
+        "[resourceId('Microsoft.Network/publicIPAddresses','asclab-win2-pip')]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -482,8 +478,7 @@
       "location": "eastus",
       "dependsOn": [
         "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]",
-        "[resourceId('Microsoft.Network/publicIPAddresses','asclab-linux-pip')]",
-        "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetName'))]"
+        "[resourceId('Microsoft.Network/publicIPAddresses','asclab-linux-pip')]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -677,8 +672,7 @@
       "name": "[guid(resourceId('Microsoft.ContainerRegistry/registries',variables('acrName')),'bootstrap-acr-push')]",
       "dependsOn": [
         "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName'))]",
-        "[resourceId('Microsoft.ContainerRegistry/registries',variables('acrName'))]",
-        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName'))]"
+        "[resourceId('Microsoft.ContainerRegistry/registries',variables('acrName'))]"
       ],
       "properties": {
         "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions','8311e382-0749-4cb8-b61a-304f252e45ec')]",
@@ -692,8 +686,7 @@
       "name": "[guid(resourceId('Microsoft.ContainerService/managedClusters','asclab-aks'),'bootstrap-contributor')]",
       "dependsOn": [
         "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName'))]",
-        "[resourceId('Microsoft.ContainerService/managedClusters','asclab-aks')]",
-        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName'))]"
+        "[resourceId('Microsoft.ContainerService/managedClusters','asclab-aks')]"
       ],
       "properties": {
         "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions','b24988ac-6180-42a0-ab88-20f7382dd24c')]",
@@ -707,8 +700,7 @@
       "name": "[guid(resourceId('Microsoft.Storage/storageAccounts',variables('storageName')),'bootstrap-blob-contributor')]",
       "dependsOn": [
         "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName'))]",
-        "[resourceId('Microsoft.Storage/storageAccounts',variables('storageName'))]",
-        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities',variables('bootstrapIdentityName'))]"
+        "[resourceId('Microsoft.Storage/storageAccounts',variables('storageName'))]"
       ],
       "properties": {
         "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions','ba92f5b4-2d11-453d-a403-e96b0029c9fe')]",
