@@ -8,7 +8,7 @@ Contoso runs a deliberately vulnerable container image in Azure Kubernetes Servi
 
 ## Overview
 
-Enable Defender for Containers, inspect the ACR vulnerability assessment, compare it with AKS runtime evidence, and review the available DevOps security information without creating a connector. The workload is in the **lab resource group — deployment <inject key="DeploymentID" enableCopy="false"></inject>**. Use the Azure portal only.
+Enable Defender for Containers, inspect the ACR vulnerability assessment, compare it with AKS runtime evidence, and review the available DevOps security information without creating a connector. The workload is in the **lab resource group — deployment <inject key="DeploymentID" enableCopy="false"/>**. Use the Azure portal only.
 
 The deployment imported the public image with Azure Container Registry import. It did not use a local Docker installation, Docker build, build agent, registry credentials, or Docker Hub credentials. AKS runs the resulting ACR image reference with the exact repository and tag shown below.
 
@@ -66,7 +66,7 @@ In this task, interpret the vulnerability evidence without changing the fixed wo
 
 In this task, confirm that the registry finding represents the image running in AKS.
 
-1. In the Azure portal, open **Kubernetes services** and select **`asclab-aks`** in resource group **`asclab`**.
+1. In the Azure portal, open **Kubernetes services** and select **`asclab-aks`** in the lab resource group **ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>**.
 2. Open the cluster's **Microsoft Defender for Cloud** security dashboard. In the **Vulnerabilities** view, review running-container image findings when available.
 3. Locate the workload whose image reference is `asclabcr*.azurecr.io/contoso-vulnerable/aspnet-core:2.1`. Confirm both values:
    - Repository: `contoso-vulnerable/aspnet-core`
@@ -82,7 +82,7 @@ In this task, review the available integration concepts without onboarding an ex
 
 1. In Microsoft Defender for Cloud, open the available container or DevOps security area and review the source-code, pipeline, registry, and image-security integrations it describes.
 2. Confirm that this lab has no connected DevOps organization or external registry. Do not select **Add connector**, authorize an organization, create credentials, or configure a pipeline.
-3. Return to the container recommendations and verify that your evidence remains scoped to the Azure resources in `asclab`, the `asclabcr*` registry, and `asclab-aks`.
+3. Return to the container recommendations and verify that your evidence remains scoped to the `asclab-*` Azure resources, the `asclabcr*` registry, and `asclab-aks`.
 
 > [!Important]
 > This task is orientation only. No connector is required or created, and no external service is used.

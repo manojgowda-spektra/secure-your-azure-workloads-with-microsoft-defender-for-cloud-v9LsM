@@ -2,7 +2,7 @@
 
 ## Summary
 
-This advanced, Azure portal-only challenge lab gives learners Owner access to one subscription containing a deliberately vulnerable workload in the `asclab` resource group. The ARM-owned workload includes three VMs, system-assigned identities and their storage/Key Vault permissions, synthetic sensitive blob records, three Key Vault secrets, SQL, and an ACR-imported fixed vulnerable image running on AKS. The workload is assessed for 48 hours before delivery so Defender CSPM, Defender for Servers Plan 2, agentless machine scanning, the cloud security graph, and baseline recommendations are available for investigation.
+This advanced, Azure portal-only challenge lab gives learners Owner access to one subscription containing a deliberately vulnerable `asclab-*` workload in the single CloudLabs-created resource group. The ARM-owned workload includes three VMs, system-assigned identities and their storage/Key Vault permissions, synthetic sensitive blob records, three Key Vault secrets, SQL, and an ACR-imported fixed vulnerable image running on AKS. The workload is assessed for 48 hours before delivery so Defender CSPM, Defender for Servers Plan 2, agentless machine scanning, the cloud security graph, and baseline recommendations are available for investigation.
 
 Learners use Microsoft Defender for Cloud as the single control plane in an investigate-first, then remediate flow. They record a baseline without requiring secure-score movement, remediate storage, SQL, and Key Vault findings, create a custom security standard, enable workload protection plans, triage exact sample alerts, inspect the fixed vulnerable container image and its AKS runtime, configure JIT, automate high-severity recommendations, trace an attack path, and export compliance evidence. Defender workload plans, the custom standard, JIT policies, Logic App, and workflow automation rule are learner-created; no DevTestLab schedule is used.
 
@@ -14,15 +14,15 @@ Learners use Microsoft Defender for Cloud as the single control plane in an inve
 • Delivery: Azure portal only
 • Audience: Advanced Azure learners
 • Access: Owner access to one subscription
-• Workload resource group: `asclab`
-• Jump-box resource group: `lab-vm`
+• Lab resource group: `ODL-DFC-<DeploymentID>` (CloudLabs-created, one group)
+• Jump box: `labvm-<DeploymentID>`, in the same lab resource group as the workload
 • Challenges: 6
 • Validations: `validate-challenge-01`, `validate-challenge-02`, `validate-challenge-03`, `validate-challenge-04`, `validate-challenge-05`, `validate-challenge-06`
 • Inline questions: None
 
 ## Challenges
 
-1. **Onboard and baseline** — Confirm the subscription connection, inventory `asclab` separately from `lab-vm`, record baseline observations, and confirm preconfigured Defender capabilities.
+1. **Onboard and baseline** — Confirm the subscription connection, inventory the `asclab-*` workload resources separately from the jump box, record baseline observations, and confirm preconfigured Defender capabilities.
 2. **Strengthen posture** — Remediate storage, SQL, and Key Vault findings and create exactly one custom standard named `Contoso Secure Workload Baseline` containing the built-in policy definition `Storage accounts should restrict network access using virtual network rules` (`2a1a9cdf-e04d-429a-8416-3bfb72a1b26f`).
 3. **Protect workloads** — Enable Defender for Storage, Key Vault, and SQL and triage the exact sample alert types `Storage.Blob_OpenACL.Sensitive`, `KV_UnusualAccessSuspiciousIP`, and `SQL.DB_PotentialSqlInjection`.
 4. **Secure containers** — Enable Defender for Containers and inspect findings for `asclabcr*.azurecr.io/contoso-vulnerable/aspnet-core:2.1`, including its highest-severity CVE, introducing base image, and identical AKS runtime.
@@ -78,7 +78,7 @@ This removes the workload resource group and its AKS cluster (including its node
 az group exists --name asclab
 ```
 
-A `false` result is expected after deletion. The facilitator must also remove any learner-created Logic App and workflow automation rule that were deployed outside `asclab`, and review subscription-level Defender pricing. Disable every paid pricing tier that is currently Standard by enumerating the subscription pricing resources:
+A `false` result is expected after deletion. The facilitator must also remove any learner-created Logic App and workflow automation rule that were deployed outside the lab resource group, and review subscription-level Defender pricing. Disable every paid pricing tier that is currently Standard by enumerating the subscription pricing resources:
 
 ```azurecli
 for plan in $(az security pricing list --query "[?pricingTier=='Standard'].name" -o tsv); do
@@ -86,7 +86,7 @@ for plan in $(az security pricing list --query "[?pricingTier=='Standard'].name"
 done
 ```
 
-If the jump-box access aid is no longer needed, the facilitator separately deletes the assigned `lab-vm` resource group; do not delete it before the session ends. Verify that no `asclab*` resources, public IPs, NICs, NSGs, AKS node resources, SQL, ACR, or paid Defender pricing remains. The cleanup is author/facilitator-operated, is independent of browser downloads, and is not a learner exercise or a validation condition.
+If the jump-box access aid is no longer needed, the facilitator deletes the whole lab resource group, which removes the workload and the jump box together; do not delete it before the session ends. Verify that no `asclab*` resources, public IPs, NICs, NSGs, AKS node resources, SQL, ACR, or paid Defender pricing remains. The cleanup is author/facilitator-operated, is independent of browser downloads, and is not a learner exercise or a validation condition.
 
 ## Defender State and Grading Boundaries
 

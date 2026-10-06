@@ -25,7 +25,7 @@ Work in the Azure portal. Create and verify the Logic App, create the named high
 
 Create the Logic App that receives a Defender for Cloud recommendation payload. Use the supported Defender for Cloud connector trigger and keep the workflow to exactly one trigger and one Compose action.
 
-1. In the Azure portal, open **Create a resource**, search for **Logic App**, and select **Create**. Use the lab subscription, resource group **asclab**, region **East US**, and the exact name **la-contoso-defender-recommendations**. Select a Consumption workflow when the hosting model is requested, complete validation, and create the resource.
+1. In the Azure portal, open **Create a resource**, search for **Logic App**, and select **Create**. Use the lab subscription, the lab resource group **ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>**, region **East US**, and the exact name **la-contoso-defender-recommendations**. Select a Consumption workflow when the hosting model is requested, complete validation, and create the resource.
 2. Open **la-contoso-defender-recommendations**, select **Logic app designer**, and start with a blank workflow.
 3. In the trigger search, search for **Microsoft Defender for Cloud** and select **When a Microsoft Defender for Cloud recommendation is created or triggered**. Create or select the Microsoft Defender for Cloud connection if prompted, and complete the sign-in/permission consent using your lab account.
 4. Add exactly one action after the trigger: **Compose**. Set **Inputs** to the trigger's dynamic **Recommendation** payload value, or the complete recommendation payload exposed by the trigger. Do not add an email, notification, generic HTTP request, HTTP response, alert trigger, or other action.

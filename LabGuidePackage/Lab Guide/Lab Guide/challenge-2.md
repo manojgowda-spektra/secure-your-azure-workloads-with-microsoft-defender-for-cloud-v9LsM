@@ -33,9 +33,9 @@ In this task, establish the starting state before changing resources.
 1. Sign in to the [Azure portal](https://portal.azure.com/) using **Email**: <inject key="AzureAdUserEmail"></inject> and **Password**: <inject key="AzureAdUserPassword"></inject>.
 2. Search for **Microsoft Defender for Cloud**, and open it.
 3. Select **Environment settings**, select the subscription used for this lab, and open **Security policies**. Leave the policy page open in another browser tab.
-4. Search for **Resource groups**, open the resource groups page, and select **asclab**. Do not use `the jump box` for this challenge.
+4. Search for **Resource groups**, open the resource groups page, and select the lab resource group **ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>**. The jump box in that group is not a target for this challenge.
 5. Locate the storage account whose name begins with `asclabsa`, the logical SQL server whose name begins with `asclab-sql`, and the Key Vault whose name begins with `asclab-kv`.
-6. Open **Microsoft Defender for Cloud > Recommendations**, filter the scope to the subscription, and use affected-resource details to confirm that findings relate to the `asclab` workload. Record observations if useful, but do not use a secure-score target or score change as a completion condition.
+6. Open **Microsoft Defender for Cloud > Recommendations**, filter the scope to the subscription, and use affected-resource details to confirm that findings relate to the `asclab-*` workload. Record observations if useful, but do not use a secure-score target or score change as a completion condition.
 
 > [!Important]
 > Recommendations can take time to refresh after a resource change. Validation checks resource properties and custom-standard definition, not secure-score movement.

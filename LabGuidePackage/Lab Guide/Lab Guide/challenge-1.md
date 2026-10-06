@@ -20,13 +20,13 @@ Microsoft Learn identifies the Defender for Cloud overview as a place to review 
 
 ## Task 1: Confirm the Azure subscription and workload scope
 
-In this task, you will confirm that the portal session is using the lab subscription and inventory the two resource groups separately.
+In this task, you will confirm that the portal session is using the lab subscription and inventory the lab resource group and separate the workload resources from the jump box.
 
 1. Open <https://portal.azure.com> and sign in with the assigned lab account:
    - **Username:** <inject key="AzureAdUserEmail"></inject>
    - **Password:** <inject key="AzureAdUserPassword"></inject>
 2. Confirm that the active directory and subscription context are the lab tenant and subscription. Record the subscription identifier shown for the session as <inject key="SubscriptionID"></inject>.
-3. Open **Resource groups** in the Azure portal and locate **asclab**. Treat this as the workload scope. Confirm that it contains the Contoso workload resources, including the virtual machines, storage account, Key Vault, SQL resources, container registry, and AKS cluster.
+3. Open **Resource groups** in the Azure portal and select the lab resource group, named **ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>**. Treat this as the workload scope. Confirm that it contains the Contoso workload resources, including the virtual machines, storage account, Key Vault, SQL resources, container registry, and AKS cluster.
 4. Locate the jump box in the same resource group and treat it as the CloudLabs access aid, not as part of the workload baseline. Its resource name is **labvm-<inject key="DeploymentID" enableCopy="false"/>**.
 5. Open **Microsoft Defender for Cloud** from the Azure portal search. Confirm that the selected subscription is the lab subscription rather than a different subscription or a workspace.
 
@@ -56,7 +56,7 @@ In this task, you will verify the subscription's existing protection configurati
 3. Verify that **Defender for Servers** is **On** and configured for **Plan 2**. Record the displayed plan selection.
 4. Verify that **agentless machine scanning** is enabled as part of the preconfigured Defender CSPM coverage. Treat the available agentless results as already soaked data; do not start a new scan or change the setting.
 5. Verify that the **Microsoft Defender for Endpoint integration** is enabled for the subscription or workload coverage shown in the portal. Record the displayed integration status.
-6. Review the subscription coverage or inventory view once more and confirm that the `asclab` workload is represented. Do not enable Defender for Storage, Defender for Key Vault, Defender for SQL, or Defender for Containers in this challenge; those plans are intentionally handled in Challenge 3 and Challenge 4.
+6. Review the subscription coverage or inventory view once more and confirm that the `asclab-*` workload is represented. Do not enable Defender for Storage, Defender for Key Vault, Defender for SQL, or Defender for Containers in this challenge; those plans are intentionally handled in Challenge 3 and Challenge 4.
 7. Confirm that your baseline notes contain all of the following: subscription context, the workload scope (the `asclab-*` resources, excluding the jump box), secure score, control breakdown, unhealthy resource count, recommendation counts by severity, the 48-hour assessment explanation, and the four enabled-capability checks.
 8. Submit the challenge validation after confirming the evidence is complete.
 

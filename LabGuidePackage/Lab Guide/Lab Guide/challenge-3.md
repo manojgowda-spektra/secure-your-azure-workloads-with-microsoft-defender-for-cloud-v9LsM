@@ -10,7 +10,7 @@ Contoso has a deliberately vulnerable workload in the **asclab (<inject key="Dep
 
 You will use Microsoft Defender for Cloud as the single investigation surface. First, you will enable and verify the three workload protection plans. Next, you will create sample alerts for those plans from **Security alerts**. Finally, you will open each exact alert type, record its MITRE mapping, simulated affected resource, and recommended remediation.
 
-Sample alerts are a controlled demonstration feature. They are not evidence that the corresponding `asclab` resource generated a real attack: Microsoft documents that sample alerts use simulated resources. Newly enabled plans may need additional time before real workload findings appear; the sample-alert workflow normally makes its alerts visible within a few minutes after creation.
+Sample alerts are a controlled demonstration feature. They are not evidence that the corresponding `asclab-*` resource generated a real attack: Microsoft documents that sample alerts use simulated resources. Newly enabled plans may need additional time before real workload findings appear; the sample-alert workflow normally makes its alerts visible within a few minutes after creation.
 
 ## Objectives
 
@@ -52,7 +52,7 @@ In this task, you will use Defender for Cloud's sample-alert feature rather than
 
 3. Confirm that the portal reports that sample alerts are being created. Wait a few minutes, then refresh **Security alerts** and filter to the selected subscription if necessary.
 
-4. Do not create a real attack, upload test malware, access Key Vault through Tor, or alter the `asclab` storage, Key Vault, or SQL resources to force an alert. Those activities are outside this challenge. The sample-alert control is the intended test path.
+4. Do not create a real attack, upload test malware, access Key Vault through Tor, or alter the `asclab-*` storage, Key Vault, or SQL resources to force an alert. Those activities are outside this challenge. The sample-alert control is the intended test path.
 
 > [!Note]
 > Microsoft Learn describes sample alerts as a way to evaluate Defender plan capabilities and validate alert integrations. After **Create sample alerts**, the alerts generally appear after a few minutes. Timing can vary; a brief delay or refresh is expected.

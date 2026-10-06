@@ -4,7 +4,7 @@
 
 Expected state for the six challenges in **Secure Your Azure Workloads with Microsoft Defender for Cloud**:
 
-- Workload resource group: `asclab`; region: `eastus`. `lab-vm` contains only the CloudLabs access VM.
+- Lab resource group: the single CloudLabs-created group `ODL-DFC-<DeploymentID>`; region: `eastus`. The jump box sits in it and contains only the CloudLabs access VM.
 - The ARM deployment owns the workload, identities, permissions, fixed container image, and pre-session Defender configuration. Learners do not recreate or bootstrap these resources.
 - Defender CSPM, Defender for Servers Plan 2, agentless machine scanning, and Defender for Endpoint integration were enabled and assessed before the session.
 - Grade resource/configuration state, recommendation state, alert presence, and evidence. Never require Secure Score movement, a Secure Score delta, or disappearance of an attack path.
@@ -32,7 +32,7 @@ Resource-group deletion is the primary teardown for the ARM-owned workload. It r
 az group exists --name asclab
 ```
 
-The facilitator must also remove the learner-created Logic App `la-contoso-defender-recommendations` and workflow automation rule `war-contoso-high-severity-recommendations` wherever they were created outside `asclab`. Review subscription-level Microsoft Defender for Cloud pricing and disable paid plans after teardown. Azure CLI uses `az security pricing create` with the pricing name and `--tier Free`; apply it to the plans that are present, typically:
+The facilitator must also remove the learner-created Logic App `la-contoso-defender-recommendations` and workflow automation rule `war-contoso-high-severity-recommendations` wherever they were created outside the lab resource group. Review subscription-level Microsoft Defender for Cloud pricing and disable paid plans after teardown. Azure CLI uses `az security pricing create` with the pricing name and `--tier Free`; apply it to the plans that are present, typically:
 
 ```azurecli
 for plan in CloudPosture VirtualMachines StorageAccounts KeyVaults SqlServers Containers; do
@@ -40,7 +40,7 @@ for plan in CloudPosture VirtualMachines StorageAccounts KeyVaults SqlServers Co
 done
 ```
 
-If the jump-box access aid is no longer needed, separately delete `lab-vm` after the session; do not remove it while learners still need access. Final facilitator verification must confirm no `asclab*` resources, public networking resources, AKS node resources, SQL, ACR, or paid Defender plans remain. This teardown is an operational cost-control action, not a learner exercise, and no validator grades it.
+If the jump-box access aid is no longer needed, delete the whole lab resource group after the session, which removes the workload and the jump box together; do not remove it while learners still need access. Final facilitator verification must confirm no `asclab*` resources, public networking resources, AKS node resources, SQL, ACR, or paid Defender plans remain. This teardown is an operational cost-control action, not a learner exercise, and no validator grades it.
 
 ### Provisioning and readiness
 
@@ -65,15 +65,15 @@ Validation: `validate-challenge-01`.
 
 ### Task 1: Confirm subscription and inventory
 
-**Expected:** The assigned subscription is selected; `asclab` workload resources are distinguished from the access VM in `lab-vm`; Defender for Cloud overview and inventory are open.
+**Expected:** The assigned subscription is selected; `asclab-*` `asclab-*` workload resources are distinguished from the jump box; Defender for Cloud overview and inventory are open.
 
-**Full credit:** Subscription, both resource groups, and principal workload resources are identified without changing posture. **Partial:** correct subscription and overview, but resource-group separation or inventory is incomplete. **Pitfalls:** wrong subscription; looking only at `lab-vm`; confusing resource suffixes; creating resources before checking ARM deployment state.
+**Full credit:** Subscription, both resource groups, and principal workload resources are identified without changing posture. **Partial:** correct subscription and overview, but resource-group separation or inventory is incomplete. **Pitfalls:** wrong subscription; looking only at the jump box; confusing resource suffixes; creating resources before checking ARM deployment state.
 
 ### Task 2: Record baseline observations
 
 **Expected:** Notes contain current Secure Score, control breakdown, unhealthy-resource count, recommendation counts by severity, timestamp/subscription context, and the 48-hour assessment context. These are observations, not targets.
 
-**Full credit:** All observations and context are recorded without remediation merely to move Secure Score. **Partial:** one measurement or the 48-hour context is missing. **Pitfalls:** treating delayed recalculation as failure; counting `lab-vm`; expecting newly enabled plans to have immediate findings.
+**Full credit:** All observations and context are recorded without remediation merely to move Secure Score. **Partial:** one measurement or the 48-hour context is missing. **Pitfalls:** treating delayed recalculation as failure; counting the jump box; expecting newly enabled plans to have immediate findings.
 
 ### Task 3: Confirm preconfigured Defender capabilities
 
@@ -267,7 +267,7 @@ Inspect the automation JSON for enabled state, recommendation-only filtering, hi
 
 ## Cross-challenge troubleshooting
 
-- **Wrong region/subscription:** workload resources are in `eastus` and `asclab`; switch context before changing anything.
+- **Wrong region/subscription:** workload resources are in `eastus` in the lab resource group; switch context before changing anything.
 - **ARM/readiness:** verify deployment operations and provisioning state before redeploying. Do not rebuild the fixed image or recreate missing workload resources.
 - **RBAC propagation:** Owner permissions, managed-identity role assignments, policy updates, and Defender settings can lag. Refresh and query directly.
 - **Defender freshness:** pre-session capabilities/findings were assessed for 48 hours; newly enabled plan findings can lag. Sample alerts are immediate Challenge 3 evidence.
