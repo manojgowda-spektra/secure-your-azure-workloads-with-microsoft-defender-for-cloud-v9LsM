@@ -28,6 +28,15 @@ In this task, you will confirm that the portal session is using the lab subscrip
 2. Confirm that the active directory and subscription context are the lab tenant and subscription. Record the subscription identifier shown for the session as <inject key="SubscriptionID"></inject>.
 3. Open **Resource groups** in the Azure portal and select the lab resource group, named **ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>**. Treat this as the workload scope. Confirm that it contains the Contoso workload resources, including the virtual machines, storage account, Key Vault, SQL resources, container registry, and AKS cluster.
 4. Locate the jump box in the same resource group and treat it as the CloudLabs access aid, not as part of the workload baseline. Its resource name is **labvm-<inject key="DeploymentID" enableCopy="false"/>**.
+
+   You will also see two resource groups that are **not** lab targets and should be excluded from every count you take in this challenge:
+
+   | Resource group | What it is |
+   |---|---|
+   | `NetworkWatcherRG` | created automatically by Azure when a virtual network is deployed |
+   | `MC_ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>_asclab-aks_eastus` | the AKS node resource group, managed by the cluster |
+
+   Count only the `asclab-*` resources in **ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>**. Including the node resource group inflates the unhealthy-resource count you record in Task 2 and will not match later challenges.
 5. Open **Microsoft Defender for Cloud** from the Azure portal search. Confirm that the selected subscription is the lab subscription rather than a different subscription or a workspace.
 
 > [!Important]
