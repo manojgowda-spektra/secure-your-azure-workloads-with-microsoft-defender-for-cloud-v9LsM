@@ -9,7 +9,7 @@ Learners use Microsoft Defender for Cloud as the single control plane in an inve
 ## Lab Details
 
 • Cloud: Azure
-• Region: `eastus`
+• Region: set by the CloudLabs Cloud Platform Config; the template follows `resourceGroup().location`, so no region is hardcoded
 • Duration: 480 minutes
 • Delivery: Azure portal only
 • Audience: Advanced Azure learners

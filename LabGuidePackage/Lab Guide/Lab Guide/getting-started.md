@@ -2,7 +2,7 @@
 
 ## Scenario
 
-Contoso operates a deliberately vulnerable Azure workload in `eastus`. You are the security owner for one Azure subscription and will use Microsoft Defender for Cloud as the control plane for an investigate-first, then-remediate workflow. The environment was assessed for 48 hours before this lab, so Defender CSPM, Defender for Servers Plan 2, agentless machine scanning, the cloud security graph, and baseline recommendations are available.
+Contoso operates a deliberately vulnerable Azure workload in a single Azure region. You are the security owner for one Azure subscription and will use Microsoft Defender for Cloud as the control plane for an investigate-first, then-remediate workflow. The environment was assessed for 48 hours before this lab, so Defender CSPM, Defender for Servers Plan 2, agentless machine scanning, the cloud security graph, and baseline recommendations are available.
 
 ## Lab overview
 
@@ -52,7 +52,7 @@ flowchart LR
 
 | Component | Value |
 |---|---|
-| Region | `eastus` |
+| Region | the region shown on your resource group - all lab resources are deployed together in one region |
 | Lab resource group | The single resource group CloudLabs created for this deployment. It holds every resource below, including the jump box **labvm-<inject key="DeploymentID" enableCopy="false"/>**. Identify it by the `asclab-*` resources it contains; the name itself varies per deployment. |
 | VMs | `asclab-win`, `asclab-win2`, `asclab-linux` |
 | Storage/container | `asclabsa*`, `asclab-public-container` |

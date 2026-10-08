@@ -4,7 +4,7 @@
 
 Expected state for the six challenges in **Secure Your Azure Workloads with Microsoft Defender for Cloud**:
 
-- Lab resource group: the single CloudLabs-created group `ODL-DFC-<DeploymentID>`; region: `eastus`. The jump box sits in it and contains only the CloudLabs access VM.
+- Lab resource group: the single CloudLabs-created group `ODL-DFC-<DeploymentID>`; region: whichever region CloudLabs deployed the group into. The jump box sits in it and contains only the CloudLabs access VM.
 - The ARM deployment owns the workload, identities, permissions, fixed container image, and pre-session Defender configuration. Learners do not recreate or bootstrap these resources.
 - Defender CSPM, Defender for Servers Plan 2, agentless machine scanning, and Defender for Endpoint integration were enabled and assessed before the session.
 - Grade resource/configuration state, recommendation state, alert presence, and evidence. Never require Secure Score movement, a Secure Score delta, or disappearance of an attack path.
@@ -44,7 +44,7 @@ If the jump-box access aid is no longer needed, delete the whole lab resource gr
 
 ### Provisioning and readiness
 
-Confirm the ARM deployment and CSE completed in `eastus` before the session. Check the workload rather than asking learners to recreate resources. Allow for eventual consistency between ARM completion, managed-identity role assignment, ACR import, AKS readiness, Defender ingestion, and recommendation refresh.
+Confirm the ARM deployment and CSE completed before the session. Check the workload rather than asking learners to recreate resources. Allow for eventual consistency between ARM completion, managed-identity role assignment, ACR import, AKS readiness, Defender ingestion, and recommendation refresh.
 
 ```powershell
 Get-AzResourceGroup -Name asclab
@@ -267,7 +267,7 @@ Inspect the automation JSON for enabled state, recommendation-only filtering, hi
 
 ## Cross-challenge troubleshooting
 
-- **Wrong region/subscription:** workload resources are in `eastus` in the lab resource group; switch context before changing anything.
+- **Wrong region/subscription:** workload resources are all in the lab resource group, in whichever region it was deployed to; switch context before changing anything.
 - **ARM/readiness:** verify deployment operations and provisioning state before redeploying. Do not rebuild the fixed image or recreate missing workload resources.
 - **RBAC propagation:** Owner permissions, managed-identity role assignments, policy updates, and Defender settings can lag. Refresh and query directly.
 - **Defender freshness:** pre-session capabilities/findings were assessed for 48 hours; newly enabled plan findings can lag. Sample alerts are immediate Challenge 3 evidence.
