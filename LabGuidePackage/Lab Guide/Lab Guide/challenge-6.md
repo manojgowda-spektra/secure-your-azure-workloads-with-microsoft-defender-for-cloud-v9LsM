@@ -85,8 +85,10 @@ Produce compliance evidence from the Microsoft cloud security benchmark (MCSB), 
 
 1. In Defender for Cloud, open **Regulatory compliance** and select **Microsoft cloud security benchmark**. Confirm that it is visible as an applied standard. Do not add or assign MCSB as a new standard.
 2. Review the standard and at least one control or assessment so the report context is clear. Do not pursue a particular compliance percentage.
-3. Select **Download report** on the Regulatory compliance page and choose **CSV**. Save the file with a recognizable name such as `MCSB-asclab-compliance.csv`.
-4. Confirm locally that the downloaded file is a CSV containing MCSB evidence for the selected subscription. Retain it as learner evidence; the browser-downloaded file is not inspected by the validator.
+3. **Open Microsoft cloud security benchmark first, then export.** **Download report** exports whichever standard you are currently inside, not the one named in this task. Click into the **Microsoft cloud security benchmark** tile so its controls are on screen, and only then select **Download report** and choose **CSV**. Save it with a recognizable name such as `MCSB-asclab-compliance.csv`.
+
+   If you select **Download report** straight from the Regulatory compliance landing page, you will get a valid-looking CSV of a different standard — in testing it exported **Azure CSPM**, 171 rows, with no MCSB content at all — and step 4 below will fail even though the download succeeded.
+4. Confirm locally that the downloaded file is a CSV containing MCSB evidence for the selected subscription. Open it and check the **complianceStandard** column reads **Microsoft cloud security benchmark** on every row — if it names any other standard, go back to step 3 and open the benchmark before exporting. A correct export for this lab runs to roughly a thousand rows and a couple of megabytes, and names `asclab-*` resources in the **resourceName** column. Retain it as learner evidence; the browser-downloaded file is not inspected by the validator.
 
 > [!Note]
 > Compliance assessments refresh asynchronously. If the MCSB standard or a control is temporarily unavailable, confirm the selected subscription and refresh the **Regulatory compliance** page. If the report command is unavailable while assessment data loads, wait and refresh; do not assign a second MCSB standard. The CSV is an evidence outcome and does not require a particular compliance percentage or Secure Score movement.

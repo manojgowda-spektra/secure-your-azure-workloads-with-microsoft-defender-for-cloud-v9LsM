@@ -169,17 +169,31 @@ Validation: `validate-challenge-04`.
 
 **Full credit:** Plan enabled and findings reviewed. **Partial:** plan enabled but an unnecessary connector is created; this earns no additional credit. **Pitfalls:** enabling only registry scanning; wrong subscription; trying to import/build a replacement image; waiting for a new scan when the fixed image was assessed.
 
-### Task 2: Inspect the fixed ACR image
+### Task 2: Inspect the registry image findings
 
-**Expected:** Findings identify `asclabcr*.azurecr.io/contoso-vulnerable/aspnet-core:2.1`, the highest-severity CVE shown in the tenant, and lineage to `mcr.microsoft.com/dotnet/core/aspnet:2.1`.
+**Expected:** The learner finds the per-package findings named **`Update <package>`** against repository `contoso-vulnerable/aspnet-core` in the `asclabcr*` registry, reached from **Recommendations** using the list's **Search by title / resource** box.
 
-**Full credit:** Vulnerability details, highest displayed CVE, base-image lineage, and end-of-support/CVE exposure are explained without inventing an undisplayed CVE. **Partial:** repository/tag and findings are correct but lineage or detail inspection is absent. **Pitfalls:** looking at `latest`; confusing MCR source with ACR destination; using a newly built image; creating registry credentials.
+**Full credit:** The learner distinguishes the **Container image** rows (registry) from the **Container** rows (cluster), records the provenance `mcr.microsoft.com/dotnet/core/aspnet:2.1`, and records the finding count and risk levels. **Partial:** findings located but the two resource types are not distinguished. **Pitfalls:** searching the portal's global search bar instead of the list's own box; hunting for a roll-up recommendation; confusing MCR source with ACR destination; creating registry credentials.
 
-### Task 3: Confirm AKS runtime linkage
+> **Marker's note.** There is no recommendation called "Azure registry container images should have vulnerabilities resolved" or "Azure running container images should have vulnerabilities resolved" — verified absent from this subscription on 9 Oct 2026. Defender publishes one `Update <package>` recommendation per affected package instead. A learner who reports being unable to find the named recommendation has read an older guide, not made a mistake.
+>
+> The registry findings carry **no tag**. `mcr.microsoft.com/dotnet/core/aspnet:2.1` is a multi-architecture image, so the import produced a tagged manifest list plus untagged per-platform manifests; Defender scans the untagged manifests and addresses them by digest. A finding named **Update windows_10** is expected and comes from the Windows images in that manifest list. Do not expect, or award credit for, a tag on a registry-side finding.
 
-**Expected:** `asclab-aks` runs the identical repository and tag `contoso-vulnerable/aspnet-core:2.1`.
+### Task 3: Record the CVE evidence
 
-**Full credit:** ACR finding and AKS deployment/pod image reference match exactly. **Partial:** ACR is correct but runtime linkage is not demonstrated or tag is omitted. **Pitfalls:** checking only repository; ignoring tag; changing the deployment before inspection.
+**Expected:** CVE identifier, CVSS score, affected package and fix version, taken from **Take action > Associated CVEs** on a **Container image** finding.
+
+**Full credit:** The learner reaches the Associated CVEs tab, records the four values, and explains why the recommendation's **Risk level** and the CVE's **CVSS** differ. **Partial:** finding opened but CVE evidence not retrieved from the Associated CVEs tab. **Pitfalls:** expecting CVE data on the finding's first pane; searching the portal for an "introducing base image", which Defender does not report for this workload.
+
+> **Marker's note.** Accept whatever CVE list the learner sees; the feed changes. In testing on 9 Oct 2026, `Update microsoft.aspnetcore.server.kestrel.core` listed CVE-2025-55315, CVSS 9.9, fix version 2.3.6, source MDVM, while the recommendation's own risk level read Medium.
+
+### Task 4: Confirm AKS runtime linkage
+
+**Expected:** The learner shows that the packages reported against the **Container image** (registry) are also reported against the **Container** running in `asclab-aks`, and takes the tag `2.1` and its digest from the ACR **Repositories** blade.
+
+**Full credit:** Package overlap between the two resource types is demonstrated, and registry, repository, tag, digest and cluster are recorded. **Partial:** registry side correct but the runtime comparison is not made. **Pitfalls:** expecting the recommendation pane to print the cluster, registry, tag or digest — it shows only the short resource name `aspnet-core`; expecting the registry and runtime findings to share a digest.
+
+> **Marker's note.** The registry and runtime scans target **different digests of the same repository**: the runtime finding is on the digest the tag `2.1` points to, the registry findings are on the untagged per-platform manifests. Do not require matching digests. The linkage to credit is the shared package set — 12 of 14 packages in testing. Runtime findings depend on the Defender sensor and appear later than the registry ones; `validate-challenge-04` deliberately does not gate on them.
 
 ```powershell
 $acr = (Get-AzContainerRegistry -ResourceGroupName asclab | Where-Object Name -like 'asclabcr*' | Select-Object -First 1).Name

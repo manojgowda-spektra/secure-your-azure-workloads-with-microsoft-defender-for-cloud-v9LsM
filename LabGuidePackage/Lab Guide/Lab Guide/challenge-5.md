@@ -108,18 +108,21 @@ Open each management port for a short, controlled period and verify the effectiv
 
 Review findings collected before the session rather than enabling scanning from a cold state.
 
-1. In Microsoft Defender for Cloud, select **Inventory** or **Recommendations**, depending on which view is available.
-2. Filter the scope to lab resource group and inspect **asclab-win**, **asclab-win2**, and **asclab-linux**.
-3. Locate the agentless machine-scanning results for each VM. Review the available categories:
-   - Software inventory and versions.
-   - Vulnerabilities associated with installed software or the machine image.
-   - Secrets detected on disk, if present.
-4. Open at least one result in each available category. Record the affected VM, finding title or identifier, severity, evidence location or description, and recommended remediation.
+1. In Microsoft Defender for Cloud, open **Recommendations**. Use the list's own search box — the one with the placeholder **Search by title / resource**, not the dark Azure search bar at the top of the portal — and search for each VM in turn: `asclab-win`, `asclab-win2`, `asclab-linux`.
+2. Review the two categories agentless scanning produces for these machines:
+
+   - **Vulnerabilities in installed software.** As with the container findings in Challenge 4, Defender reports these as one recommendation **per affected package**, named **`Update <software>`** — for example **Update edge_chromium-based**. There is no single roll-up "vulnerabilities" recommendation per VM.
+   - **Software inventory.** Open **Inventory**, select a machine, and review the installed-software list that agentless scanning produced.
+3. Open an `Update <software>` finding and record the affected VM, the software name, the risk level, and then — under **Take action** > **Associated CVEs** — the CVE identifier, CVSS score and fix version. A single software finding can carry a large number of CVEs; record the highest-scoring one rather than all of them.
+4. Compare **asclab-win** and **asclab-win2**. They were built from the same image and will usually report the same small set of findings. That is the expected result, not a mistake: the pair exists so you can see that two identically built machines produce identical posture evidence.
 5. Record why the results are usable now: Defender CSPM, Defender for Servers Plan 2, agentless machine scanning, and Microsoft Defender for Endpoint integration were enabled, and the workload was assessed for 48 hours before this session.
 6. Do not enable or disable agentless scanning. Treat the findings as pre-existing evidence and focus on interpretation and remediation priority.
 
+> [!Important]
+> Expect the VM findings to be sparse, and expect them to be uneven between machines. In testing, the two Windows VMs each reported exactly one `Update <software>` finding and **asclab-linux** reported none at all. A machine with no vulnerability finding has not failed to scan — a minimal, freshly provisioned Linux image genuinely has little installed software to report. Record "no findings returned for this machine" as the result and move on; do not wait for findings to appear, and do not treat an empty list as a blocker for this task.
+
 > [!Note]
-> Finding availability and refresh time can vary. Do not invent a finding if a category is empty. Distinguish an absent result from a clean result.
+> Secrets detected on disk is a third agentless category, but this lab plants no secrets on the VM disks, so expect that category to be empty. Do not invent a finding if a category is empty, and distinguish an absent result from a clean result.
 
 ## Validation
 
