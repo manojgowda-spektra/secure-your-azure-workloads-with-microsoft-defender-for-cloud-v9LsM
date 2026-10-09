@@ -28,6 +28,17 @@ In this task, you will confirm that the portal session is using the lab subscrip
 2. Confirm that the active directory and subscription context are the lab tenant and subscription. Record the subscription identifier shown for the session as <inject key="SubscriptionID"></inject>.
 3. Open **Resource groups** in the Azure portal and select the lab resource group, named **ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>**. Treat this as the workload scope. Confirm that it contains the Contoso workload resources, including the virtual machines, storage account, Key Vault, SQL resources, container registry, and AKS cluster.
 4. Locate the jump box in the same resource group and treat it as the CloudLabs access aid, not as part of the workload baseline. Its resource name is **labvm-<inject key="DeploymentID" enableCopy="false"/>**.
+
+   You will see **four** resource groups in this subscription. Only the first is a lab target; the other three are platform-created and must be excluded from every count you take in this challenge:
+
+   | Resource group | What it is |
+   |---|---|
+   | `ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>` | **the lab resource group** — the only one you work in |
+   | `MC_ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>_asclab-aks_<region>` | the AKS node resource group, created and managed by the cluster. The suffix is the region the lab was deployed to |
+   | `Cloudlabs-ACI-<inject key="DeploymentID" enableCopy="false"/>-labvm-...` | the CloudLabs container instance that serves your jump box connection |
+   | `NetworkWatcherRG` | created automatically by Azure when a virtual network is deployed |
+
+   Count only the `asclab-*` resources in **ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>**. Including the node resource group inflates the unhealthy-resource count you record in Task 2 and will not match later challenges.
 5. Open **Microsoft Defender for Cloud** from the Azure portal search. Confirm that the selected subscription is the lab subscription rather than a different subscription or a workspace.
 
 > [!Important]
@@ -37,8 +48,10 @@ In this task, you will confirm that the portal session is using the lab subscrip
 
 In this task, you will record the current posture measurements exactly as displayed, while treating them as baseline evidence rather than grading targets.
 
-1. On the **Defender for Cloud Overview** page, record the current **secure score** and the date and time of the observation.
-2. Open the secure-score or security-controls view and record the **control breakdown**: capture each displayed control name and its current status or contribution. Do not attempt to improve, reproduce, or target the score.
+1. On the **Defender for Cloud Overview** page, look for the **secure score** tile and record the value and the time of your observation.
+
+   **If the tile is blank, still calculating, or shows 100%, that is expected — note it and move on.** Secure score is recalculated on Defender's own schedule and can take hours to appear on a newly assessed subscription; a freshly enabled subscription has also been observed showing 100% before the real assessments land. Nothing in this challenge depends on a score value, and the validation does not read it. Steps 3 and 4 below are the measurements that matter.
+2. Open the secure-score or security-controls view and record the **control breakdown**: capture each displayed control name and its current status or contribution. Do not attempt to improve, reproduce, or target the score. As with step 1, if no controls are listed yet, record that observation and continue — the control list populates on the same delayed schedule as the score.
 3. From the overview or inventory view, record the current **unhealthy resource count**. Ensure that the scope is the lab subscription and that you count only the `asclab-*` workload resources, excluding the jump box.
 4. Open **Recommendations** and record the total recommendation count by severity: **High**, **Medium**, and **Low**. If the portal presents another severity category, record it as an additional observation rather than converting it into one of the three required categories.
 5. Add a short interpretation to your lab notes: the workload was intentionally assessed for **48 hours**, so the recommendations and inventory represent an established pre-session baseline rather than a first-minute scan.

@@ -9,7 +9,7 @@ Learners use Microsoft Defender for Cloud as the single control plane in an inve
 ## Lab Details
 
 • Cloud: Azure
-• Region: `eastus`
+• Region: set by the CloudLabs Cloud Platform Config; the template follows `resourceGroup().location`, so no region is hardcoded
 • Duration: 480 minutes
 • Delivery: Azure portal only
 • Audience: Advanced Azure learners
@@ -24,9 +24,9 @@ Learners use Microsoft Defender for Cloud as the single control plane in an inve
 
 1. **Onboard and baseline** — Confirm the subscription connection, inventory the `asclab-*` workload resources separately from the jump box, record baseline observations, and confirm preconfigured Defender capabilities.
 2. **Strengthen posture** — Remediate storage, SQL, and Key Vault findings and create exactly one custom standard named `Contoso Secure Workload Baseline` containing the built-in policy definition `Storage accounts should restrict network access using virtual network rules` (`2a1a9cdf-e04d-429a-8416-3bfb72a1b26f`).
-3. **Protect workloads** — Enable Defender for Storage, Key Vault, and SQL and triage the exact sample alert types `Storage.Blob_OpenACL.Sensitive`, `KV_UnusualAccessSuspiciousIP`, and `SQL.DB_PotentialSqlInjection`.
+3. **Protect workloads** — Enable Defender for Storage and Key Vault, enable Azure SQL Databases under the **Databases** plan, and triage the sample alert types `SIMULATED_Storage.Blob_OpenACL`, `SIMULATED_SQL.DB_PotentialSqlInjection` and a `SIMULATED_KV_*` alert.
 4. **Secure containers** — Enable Defender for Containers and inspect findings for `asclabcr*.azurecr.io/contoso-vulnerable/aspnet-core:2.1`, including its highest-severity CVE, introducing base image, and identical AKS runtime.
-5. **Harden VM access** — Configure JIT for `asclab-win` port 3389 and `asclab-linux` port 22 with maximum request duration `PT3H`, allowed source `Any`, and a learner request of `PT15M`; interpret pre-existing agentless results.
+5. **Harden VM access** — Configure JIT for `asclab-win` port 3389 and `asclab-linux` port 22 with maximum request duration `PT3H`, allowed source `Any`, then raise a bounded 1-hour access request; interpret pre-existing agentless results.
 6. **Automate and prove** — Create Logic App `la-contoso-defender-recommendations` with the Microsoft Defender for Cloud recommendation trigger `When a Microsoft Defender for Cloud recommendation is created or triggered` and one `Compose` action, create enabled recommendation-only workflow rule `war-contoso-high-severity-recommendations`, remediate the attack-path recommendation, and download an MCSB CSV report.
 
 ## Environment and Fixed Image

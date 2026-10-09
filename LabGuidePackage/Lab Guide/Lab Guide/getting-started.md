@@ -2,7 +2,7 @@
 
 ## Scenario
 
-Contoso operates a deliberately vulnerable Azure workload in `eastus`. You are the security owner for one Azure subscription and will use Microsoft Defender for Cloud as the control plane for an investigate-first, then-remediate workflow. The environment was assessed for 48 hours before this lab, so Defender CSPM, Defender for Servers Plan 2, agentless machine scanning, the cloud security graph, and baseline recommendations are available.
+Contoso operates a deliberately vulnerable Azure workload in a single Azure region. You are the security owner for one Azure subscription and will use Microsoft Defender for Cloud as the control plane for an investigate-first, then-remediate workflow. The environment was assessed for 48 hours before this lab, so Defender CSPM, Defender for Servers Plan 2, agentless machine scanning, the cloud security graph, and baseline recommendations are available.
 
 ## Lab overview
 
@@ -23,7 +23,7 @@ Complete six challenges in order: establish a baseline; remediate storage, SQL, 
 - Remediate storage, SQL, and Key Vault settings and create **Contoso Secure Workload Baseline**.
 - Enable Storage, Key Vault, SQL, and Containers protection and triage exact sample-alert strings.
 - Analyze `contoso-vulnerable/aspnet-core:2.1` from source `mcr.microsoft.com/dotnet/core/aspnet:2.1` in `asclabcr*` and `asclab-aks`.
-- Configure JIT for ports `3389` and `22` with maximum `PT3H`, source `Any`, and request `PT15M`.
+- Configure JIT for ports `3389` and `22` with maximum `PT3H` and source `Any`, then raise a bounded 1-hour access request.
 - Create recommendation-only automation, verify a healthy attack-path recommendation, and export MCSB CSV evidence.
 
 ## Architecture
@@ -52,7 +52,7 @@ flowchart LR
 
 | Component | Value |
 |---|---|
-| Region | `eastus` |
+| Region | the region shown on your resource group - all lab resources are deployed together in one region |
 | Lab resource group | The single resource group CloudLabs created for this deployment. It holds every resource below, including the jump box **labvm-<inject key="DeploymentID" enableCopy="false"/>**. Identify it by the `asclab-*` resources it contains; the name itself varies per deployment. |
 | VMs | `asclab-win`, `asclab-win2`, `asclab-linux` |
 | Storage/container | `asclabsa*`, `asclab-public-container` |
@@ -63,7 +63,7 @@ flowchart LR
 | Source image | `mcr.microsoft.com/dotnet/core/aspnet:2.1` |
 | Custom standard | `Contoso Secure Workload Baseline` |
 | Standard member | `Storage accounts should restrict network access using virtual network rules`; definition ID `2a1a9cdf-e04d-429a-8416-3bfb72a1b26f` |
-| JIT | `PT3H`, `Any`, learner request `PT15M` |
+| JIT | policy maximum `PT3H`, source `Any`; learner request 1 hour (the portal slider allows 1-3 hours only) |
 | Automation | `war-contoso-high-severity-recommendations` targeting `la-contoso-defender-recommendations`, recommendations only |
 | Logic App | Trigger `When a Microsoft Defender for Cloud recommendation is created or triggered`; one `Compose` action |
 | Compliance | Microsoft cloud security benchmark (MCSB), CSV |

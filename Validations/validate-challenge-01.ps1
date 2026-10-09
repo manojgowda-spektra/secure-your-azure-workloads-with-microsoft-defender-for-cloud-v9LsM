@@ -12,7 +12,10 @@ do {
     if($c[0].PricingTier -ne 'Standard'){throw "Defender CSPM tier is '$($c[0].PricingTier)', expected Standard."}
     if($s.Count -ne 1){throw "Expected one VirtualMachines pricing record; found $($s.Count)."}
     if($s[0].PricingTier -ne 'Standard' -or $s[0].SubPlan -ne 'P2'){throw "Defender for Servers is not Standard Plan 2 (tier '$($s[0].PricingTier)', subplan '$($s[0].SubPlan)')."}
-    if(-not (Enabled $c[0] 'AgentlessVmScanning' -or Enabled $s[0] 'AgentlessVmScanning')){throw 'AgentlessVmScanning is not enabled.'}
+    # Parenthesise each call. Without the brackets PowerShell parses this as ONE call to Enabled
+    # with '-or', 'Enabled', $s[0] and the second name swallowed into $args, so the Servers plan is
+    # never tested and the either/or is dead code. Verified by parse test, 6 Oct 2026.
+    if(-not ((Enabled $c[0] 'AgentlessVmScanning') -or (Enabled $s[0] 'AgentlessVmScanning'))){throw 'AgentlessVmScanning is not enabled on Defender CSPM or Defender for Servers.'}
     $found=$true; $body=@{Status='Succeeded';Message="Subscription '$sub' has Defender CSPM Standard, Defender for Servers Plan 2, and AgentlessVmScanning enabled."}|ConvertTo-Json -Compress
     Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{StatusCode=[HttpStatusCode]::OK;Body=$body}) -Clobber
   } catch { $detail=$_.Exception.Message; $body=@{Status='Failed';Message="Challenge 1 attempt $count of 3 failed: $detail"}|ConvertTo-Json -Compress; Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{StatusCode=[HttpStatusCode]::OK;Body=$body}) -Clobber; Start-Sleep -Seconds 10 }

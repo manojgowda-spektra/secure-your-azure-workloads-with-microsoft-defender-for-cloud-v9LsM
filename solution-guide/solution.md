@@ -4,13 +4,13 @@
 
 Expected state for the six challenges in **Secure Your Azure Workloads with Microsoft Defender for Cloud**:
 
-- Lab resource group: the single CloudLabs-created group `ODL-DFC-<DeploymentID>`; region: `eastus`. The jump box sits in it and contains only the CloudLabs access VM.
+- Lab resource group: the single CloudLabs-created group `ODL-DFC-<DeploymentID>`; region: whichever region CloudLabs deployed the group into. The jump box sits in it and contains only the CloudLabs access VM.
 - The ARM deployment owns the workload, identities, permissions, fixed container image, and pre-session Defender configuration. Learners do not recreate or bootstrap these resources.
 - Defender CSPM, Defender for Servers Plan 2, agentless machine scanning, and Defender for Endpoint integration were enabled and assessed before the session.
 - Grade resource/configuration state, recommendation state, alert presence, and evidence. Never require Secure Score movement, a Secure Score delta, or disappearance of an attack path.
 - For Challenge 6, grade the attack-path recommendation's remediation state only.
 
-Pinned values include VMs `asclab-win`, `asclab-win2`, and `asclab-linux`; ACR `asclabcr*`; AKS `asclab-aks`; image `contoso-vulnerable/aspnet-core:2.1`; custom standard `Contoso Secure Workload Baseline`; policy definition `2a1a9cdf-e04d-429a-8416-3bfb72a1b26f`; JIT maximum `PT3H`, source `Any`, and learner request `PT15M`; Logic App `la-contoso-defender-recommendations`; and workflow rule `war-contoso-high-severity-recommendations`.
+Pinned values include VMs `asclab-win`, `asclab-win2`, and `asclab-linux`; ACR `asclabcr*`; AKS `asclab-aks`; image `contoso-vulnerable/aspnet-core:2.1`; custom standard `Contoso Secure Workload Baseline`; policy definition `2a1a9cdf-e04d-429a-8416-3bfb72a1b26f`; JIT maximum `PT3H`, source `Any`, and a learner request of 1 hour (the portal slider offers 1-3 hours only); Logic App `la-contoso-defender-recommendations`; and workflow rule `war-contoso-high-severity-recommendations`.
 
 The Logic App must use the supported Microsoft Defender for Cloud recommendation trigger **When a Microsoft Defender for Cloud recommendation is created or triggered**. It must have exactly one `Compose` action containing the incoming recommendation payload. The MCSB CSV is learner/facilitator evidence only; it is not validator-observable and is not a strict validator condition.
 
@@ -44,7 +44,7 @@ If the jump-box access aid is no longer needed, delete the whole lab resource gr
 
 ### Provisioning and readiness
 
-Confirm the ARM deployment and CSE completed in `eastus` before the session. Check the workload rather than asking learners to recreate resources. Allow for eventual consistency between ARM completion, managed-identity role assignment, ACR import, AKS readiness, Defender ingestion, and recommendation refresh.
+Confirm the ARM deployment and CSE completed before the session. Check the workload rather than asking learners to recreate resources. Allow for eventual consistency between ARM completion, managed-identity role assignment, ACR import, AKS readiness, Defender ingestion, and recommendation refresh.
 
 ```powershell
 Get-AzResourceGroup -Name asclab
@@ -102,11 +102,11 @@ Validation: `validate-challenge-02`.
 
 **Full credit:** All three properties are observable on the workload account. **Partial:** two properties are correct or another account was changed. **Pitfalls:** changing anonymous blob access instead of public network access; selecting `TLS1_0`/`TLS1_1`; waiting for Secure Score.
 
-### Task 2: Close SQL and enable Key Vault soft delete
+### Task 2: Close public network access on SQL and the Key Vault
 
-**Expected:** The authoritative graded SQL state is `publicNetworkAccess=Disabled` on the `asclab-sql*` server, and the `asclab-kv*` vault has soft delete enabled. If the `publicNetworkAccess` control is unavailable in the learner's portal/API surface, closing/removing the internet-open SQL firewall rule is the conditional fallback; it is not the authoritative graded state when the property is available.
+**Expected:** `publicNetworkAccess=Disabled` on the `asclab-sql*` server **and** no firewall rule starting at `0.0.0.0` (the lab ships `AllowAll`), plus `publicNetworkAccess=Disabled` on the `asclab-kv*` vault. Both SQL states are graded; the portal hides the firewall section once public access is disabled, so the rule must be removed first. If the `publicNetworkAccess` control is unavailable in the learner's portal/API surface, closing/removing the internet-open SQL firewall rule is the conditional fallback; it is not the authoritative graded state when the property is available.
 
-**Full credit:** SQL `publicNetworkAccess` is `Disabled` and Key Vault soft delete is enabled. **Partial:** only one authoritative remediation is complete; or, only where the control is unavailable, the learner documents removal of the all-internet firewall rule and completes soft-delete remediation. **Pitfalls:** grading firewall-rule removal instead of `publicNetworkAccess`; changing only one test IP; checking the database rather than server; attempting to disable soft delete; soft-deleted Key Vault names blocking re-creation.
+**Full credit:** SQL `publicNetworkAccess` is `Disabled` with no `0.0.0.0` firewall rule, and Key Vault `publicNetworkAccess` is `Disabled`. **Partial:** only one of the three remediations is complete. **Pitfalls:** disabling SQL public access *before* deleting the `AllowAll` rule, after which the portal hides the firewall section and the rule can no longer be removed; missing the **Proceed** confirmation on the storage pane, which silently reverts the choice; checking the database rather than the server; expecting soft delete to be a learner action, when Azure enables it on every new vault and no longer permits disabling it.
 
 ### Task 3: Create the custom standard
 
@@ -126,7 +126,7 @@ Get-AzSqlServer -ResourceGroupName asclab -ServerName $sql.ServerName | Select-O
 # Conditional fallback only when publicNetworkAccess is unavailable:
 Get-AzSqlServerFirewallRule -ResourceGroupName asclab -ServerName $sql.ServerName
 $kv = Get-AzKeyVault -ResourceGroupName asclab | Where-Object VaultName -like 'asclab-kv*' | Select-Object -First 1
-$kv | Select-Object VaultName,EnableSoftDelete,PublicNetworkAccess
+$kv | Select-Object VaultName,PublicNetworkAccess
 az policy definition show --name 2a1a9cdf-e04d-429a-8416-3bfb72a1b26f --query "{name:displayName,id:id}" -o json
 ```
 
@@ -146,7 +146,7 @@ Validation: `validate-challenge-03`.
 
 ### Task 2: Create and triage sample alerts
 
-**Expected:** Security alerts > Sample alerts contains one subscription sample alert for each exact type: `Storage.Blob_OpenACL.Sensitive`, `KV_UnusualAccessSuspiciousIP`, and `SQL.DB_PotentialSqlInjection`. Each is opened/triaged with MITRE mapping, affected resource, and recommended remediation recorded.
+**Expected:** Security alerts > Sample alerts contains `SIMULATED_Storage.Blob_OpenACL`, `SIMULATED_SQL.DB_PotentialSqlInjection`, and at least one `SIMULATED_KV_*` alert (selecting the Key Vaults plan creates five). Defender prefixes every sample alert type with `SIMULATED_`. Each is opened/triaged with affected resource and recommended remediation recorded; MITRE intent is `Collection` for the Storage alert and `Unknown` for the other two, so do not require a tactic for those.
 
 **Full credit:** All three exact strings are present and triaged, with simulated resources distinguished from `asclabsa*`. **Partial:** strings exist but only one or two are triaged or the distinction is missing. **Pitfalls:** searching live alerts instead of Sample alerts; expecting simulated resources to name `asclabsa*`; using similar wording; filtering to a resource instead of subscription.
 
@@ -205,9 +205,9 @@ Validation: `validate-challenge-05`.
 
 ### Task 2: Configure and verify a bounded request
 
-**Expected:** A learner request opens the correct port for exactly `PT15M`; the temporary rule is observable while active and removed/closed after expiry or release.
+**Expected:** A learner request opens the correct port for 1 hour; a temporary allow rule appears at priority `100` above Defender's own deny at `1000` and the lab's original `AllowRdp`/`AllowSsh` rule, and is removed after expiry or release.
 
-**Full credit:** Correct VM/port, exact `PT15M`, and open plus closed/expired behavior are verified. **Partial:** policy exists but only the request is shown. **Pitfalls:** requesting `PT3H`; inspecting the base NSG rather than temporary rule; expecting immediate closure.
+**Full credit:** Correct VM/port, a bounded request, and open plus closed/expired behaviour are verified. **Partial:** policy exists but only the request is shown. **Pitfalls:** choosing **My IP** on an IPv6 connection, which JIT rejects outright - use **IP Range** `0.0.0.0/0`; looking for an "Any" source button, which the request pane does not have; expecting to select minutes, when the slider is in whole hours.
 
 ### Task 3: Interpret agentless machine scanning
 
@@ -267,14 +267,14 @@ Inspect the automation JSON for enabled state, recommendation-only filtering, hi
 
 ## Cross-challenge troubleshooting
 
-- **Wrong region/subscription:** workload resources are in `eastus` in the lab resource group; switch context before changing anything.
+- **Wrong region/subscription:** workload resources are all in the lab resource group, in whichever region it was deployed to; switch context before changing anything.
 - **ARM/readiness:** verify deployment operations and provisioning state before redeploying. Do not rebuild the fixed image or recreate missing workload resources.
 - **RBAC propagation:** Owner permissions, managed-identity role assignments, policy updates, and Defender settings can lag. Refresh and query directly.
 - **Defender freshness:** pre-session capabilities/findings were assessed for 48 hours; newly enabled plan findings can lag. Sample alerts are immediate Challenge 3 evidence.
 - **Storage throttling/SKU behavior:** do not repeatedly recreate or resize storage; inspect the existing `asclabsa*` account and wait for control-plane operations.
 - **Soft-deleted resources:** a soft-deleted Key Vault name can block re-creation. Recover or purge only under instructor direction; the required action is enabling soft delete on the deployed vault.
 - **Identity and permissions:** verify the Windows VM system-assigned identity before interpreting Challenge 6; do not replace it with a user-assigned identity.
-- **JIT timing:** `PT3H` is the policy maximum and `PT15M` is the learner request. Temporary rules appear and expire asynchronously.
+- **JIT timing:** `PT3H` is the policy maximum, which the validator checks; the learner request is a separate 1-3 hour window chosen on a slider. Temporary rules appear and expire asynchronously.
 - **Logic App/Defender connector:** use the exact supported trigger **When a Microsoft Defender for Cloud recommendation is created or triggered**. Do not use an HTTP, alert, or recurrence trigger, or an extra Response/notification action. If the trigger is unavailable, confirm the correct connector, subscription, region, and permissions; do not substitute a generic trigger.
 - **Recommendation timing:** ARM remediation, Defender assessment, attack-path recomputation, and validator reads are asynchronous. Recheck after propagation; never infer success from one stale portal blade.
 - **Portal/API mismatch:** use portal state for grading and CLI/REST as corroboration. A downloaded CSV is facilitator evidence, not validator-observable state.
@@ -284,10 +284,10 @@ Inspect the automation JSON for enabled state, recommendation-only filtering, hi
 | Challenge | Full-credit state | Validation |
 |---|---|---|
 | 1 | Baseline observations and four preconfigured capabilities confirmed; no score target | `validate-challenge-01` |
-| 2 | Storage settings, SQL `publicNetworkAccess=Disabled`, Key Vault soft delete, and exact one-policy named custom standard; MCSB remains visible | `validate-challenge-02` |
+| 2 | Storage settings, SQL `publicNetworkAccess=Disabled` with no `0.0.0.0` firewall rule, Key Vault `publicNetworkAccess=Disabled`, and exact one-policy named custom standard; MCSB remains visible | `validate-challenge-02` |
 | 3 | Three plans enabled and exact three sample-alert strings present and triaged | `validate-challenge-03` |
 | 4 | Containers enabled; fixed ACR findings, CVE/base-image lineage, and identical AKS image verified | `validate-challenge-04` |
-| 5 | JIT on both required VMs/ports with `PT3H`, `Any`, and `PT15M`; agentless findings interpreted | `validate-challenge-05` |
+| 5 | JIT on both required VMs/ports with `PT3H` and `Any`, plus a bounded 1-hour request; agentless findings interpreted | `validate-challenge-05` |
 | 6 | Exact Logic App connector trigger and single Compose action, recommendation-only high-severity rule, and healthy attack-path recommendation; MCSB CSV retained as facilitator evidence only | `validate-challenge-06` |
 
 No full- or partial-credit decision is based on Secure Score movement, Secure Score delta, attack-path disappearance, or a learner's local CSV download. The Challenge 6 validator observes the Azure-side Logic App, automation rule, and recommendation state. Validation references are limited to `validate-challenge-01` through `validate-challenge-06`.

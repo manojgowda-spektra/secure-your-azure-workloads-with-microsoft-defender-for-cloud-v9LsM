@@ -26,7 +26,7 @@ Defender for Storage, Defender for Key Vault, Defender for SQL, and Defender for
 | 2 — Strengthen posture | Remediate five prescribed storage, SQL, and Key Vault conditions and create `Contoso Secure Workload Baseline`. |
 | 3 — Protect workloads | Enable three workload plans and triage the exact sample-alert type strings. |
 | 4 — Secure containers | Relate the fixed vulnerable ACR image to its MCR source and AKS runtime. |
-| 5 — Harden VM access | Configure JIT for ports 3389 and 22 with `PT3H` maximum duration and exercise a `PT15M` request. |
+| 5 — Harden VM access | Configure JIT for ports 3389 and 22 with `PT3H` maximum duration and exercise a bounded 1-hour access request. |
 | 6 — Automate and prove | Create the Logic App with the exact supported trigger **When a Microsoft Defender for Cloud recommendation is created or triggered** and one **Compose** action, supported recommendation-only automation rule, healthy attack-path recommendation state, and MCSB CSV evidence. |
 
 ## Assessment boundary

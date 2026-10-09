@@ -25,7 +25,19 @@ Work in the Azure portal. Create and verify the Logic App, create the named high
 
 Create the Logic App that receives a Defender for Cloud recommendation payload. Use the supported Defender for Cloud connector trigger and keep the workflow to exactly one trigger and one Compose action.
 
-1. In the Azure portal, open **Create a resource**, search for **Logic App**, and select **Create**. Use the lab subscription, the lab resource group **ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>**, region **East US**, and the exact name **la-contoso-defender-recommendations**. Select a Consumption workflow when the hosting model is requested, complete validation, and create the resource.
+1. In the Azure portal, open **Create a resource**, search for **Logic App**, and select **Create**.
+
+   **Four of the portal's defaults are wrong for this lab. Change every one of them.**
+
+   a. The first screen is **Select a hosting option**, and it defaults to **Standard → Workflow Service Plan**, which bills for a dedicated plan. Choose **Consumption → Multi-tenant**, then select **Select**. The next blade title should read **Create Logic App (Multi-tenant)** — if it does not, go back.
+
+   b. **Resource Group** defaults to a **new** group called `(New) la-contoso-defender-recommendations_group`. You must change it to the existing lab group **ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>**. The validator looks for the Logic App in the lab group, so leaving the default fails the challenge even though the workflow itself is correct.
+
+   c. When you type the deployment ID into the Resource Group box, **two groups match** and the AKS node group `MC_ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>_asclab-aks_<region>` is listed **first and pre-highlighted**. Do not press Enter — click the entry named exactly **ODL-DFC-<inject key="DeploymentID" enableCopy="false"/>**.
+
+   d. **Region** defaults to whichever region the portal prefers, not yours. Set it to the **same region as your lab resource group**, shown on the resource group overview.
+
+   Set **Logic App name** to exactly **la-contoso-defender-recommendations**, leave **Enable log analytics** as **No**, then select **Review + create** and **Create**.
 2. Open **la-contoso-defender-recommendations**, select **Logic app designer**, and start with a blank workflow.
 3. In the trigger search, search for **Microsoft Defender for Cloud** and select **When a Microsoft Defender for Cloud recommendation is created or triggered**. Create or select the Microsoft Defender for Cloud connection if prompted, and complete the sign-in/permission consent using your lab account.
 4. Add exactly one action after the trigger: **Compose**. Set **Inputs** to the trigger's dynamic **Recommendation** payload value, or the complete recommendation payload exposed by the trigger. Do not add an email, notification, generic HTTP request, HTTP response, alert trigger, or other action.
