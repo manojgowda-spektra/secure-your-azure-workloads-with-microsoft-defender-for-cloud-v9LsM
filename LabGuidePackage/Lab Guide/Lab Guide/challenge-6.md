@@ -69,7 +69,9 @@ Use Defender for Cloud's risk analysis to trace how the workload exposes the sto
 
 1. In Defender for Cloud, open **Recommendations**.
 2. Above the list, open **Add filter** and filter on **Risk factors**. Review the recommendations that carry factors such as **Internet exposure**, **Sensitive data** and **Vulnerabilities**. These factors are produced by Defender CSPM, which is enabled on this subscription, and they are how Defender expresses why a finding matters rather than merely what it is.
-3. Open one recommendation affecting an `asclab-*` resource that carries a risk factor, and record:
+
+   > If the **Risk factors** column is empty for every recommendation, CSPM risk analysis has not finished its first pass on this subscription. That is a timing matter, not a mistake. Record that the column is empty, skip to step 4, and complete the task — steps 4 to 6 are the graded part and do not depend on it.
+3. Open one recommendation affecting an `asclab-*` resource — one carrying a risk factor if any do, otherwise any `asclab-*` recommendation — and record:
    - **Risk level** and **Risk factors** — note that the risk level is Defender's environmental judgement and is not the same as a CVE severity.
    - The **Description** and the affected resource.
    - Under **General details**: **Scope**, **Last change date** and **Freshness**.
