@@ -4,11 +4,11 @@
 
 ## Scenario
 
-You are completing the investigation of the deliberately vulnerable **asclab (<inject key="DeploymentID" enableCopy="false"/>)** workload. In this challenge, you will create a minimal Logic App with the supported Microsoft Defender for Cloud recommendation trigger, connect it to a recommendation-only workflow automation rule, investigate the pre-existing attack path, remediate the recommendation that makes the path possible, and export Microsoft cloud security benchmark (MCSB) compliance evidence. The required state is the configuration and remediation result; no Secure Score change or attack-path removal is required.
+You are completing the investigation of the deliberately vulnerable **asclab (<inject key="DeploymentID" enableCopy="false"/>)** workload. In this challenge, you will create a minimal Logic App with the supported Microsoft Defender for Cloud recommendation trigger, connect it to a recommendation-only workflow automation rule, trace how the workload exposes its sensitive data and close that exposure, and export Microsoft cloud security benchmark (MCSB) compliance evidence. The required state is the configuration and remediation result; no Secure Score change is required.
 
 ## Overview
 
-Work in the Azure portal. Create and verify the Logic App, create the named high-severity recommendation rule, trace the internet-exposed VM through its over-permissioned identity to the public storage account, remediate the recommendation that breaks the path, and download the MCSB report as CSV.
+Work in the Azure portal. Create and verify the Logic App, create the named high-severity recommendation rule, trace the internet-exposed VM through its over-permissioned identity to the storage account holding the sensitive records, close the anonymous access that exposes it, and download the MCSB report as CSV.
 
 > [!Important]
 > Sign in to <https://portal.azure.com> with **Email:** <inject key="AzureAdUserEmail"></inject> and **Password:** <inject key="AzureAdUserPassword"></inject>. Confirm that the selected directory and subscription are the lab subscription before making changes.
@@ -17,7 +17,7 @@ Work in the Azure portal. Create and verify the Logic App, create the named high
 
 - Task 1: Create and verify the recommendation-receiving Logic App.
 - Task 2: Create a recommendation-only workflow automation rule.
-- Task 3: Trace and remediate the pre-existing attack path.
+- Task 3: Trace and close the exposure of the sensitive data.
 - Task 4: Export MCSB compliance evidence as CSV.
 - Task 5: Validate the complete Challenge 6 state.
 
@@ -63,21 +63,37 @@ Connect high-severity Defender for Cloud recommendations to the Logic App withou
 > [!Important]
 > Do not create a second rule, add an alert trigger, or add another Logic App action. The required rule is **war-contoso-high-severity-recommendations**, targeting **la-contoso-defender-recommendations** for high-severity recommendations only.
 
-## Task 3: Trace and remediate the attack-path recommendation
+## Task 3: Trace and close the exposure of the sensitive data
 
-Use the cloud security graph to investigate and remediate the recommendation that enables the pre-existing path.
+Use Defender for Cloud's risk analysis to trace how the workload exposes the storage account holding synthetic sensitive records, then close the exposure.
 
-1. In Defender for Cloud, open **Attack path analysis** and select the path that begins with the internet-exposed VM and leads toward the storage account containing synthetic sensitive records.
-2. Inspect the selected node's **Insight** details and trace the sequence from the internet-exposed VM, through its attached system-assigned identity and excessive permissions, to the public storage account. Record the resource names and configuration weakness.
-3. Select **Recommendations** or **Remediation** for the path. Distinguish **Recommendations**—steps that fix the attack path—from **Additional recommendations**, which lower risk but do not fully fix it.
-4. Open the recommendation that breaks the path and follow its **Take action** remediation guidance. Apply the prescribed fix in the Azure portal, such as removing the unnecessary identity permission or correcting the exposed storage access identified by the recommendation. Change no unrelated resources.
-5. Return to the recommendation and refresh its details. Confirm that the remediated recommendation's state is **Healthy**.
+1. In Defender for Cloud, open **Recommendations**.
+2. Above the list, open **Add filter** and filter on **Risk factors**. Review the recommendations that carry factors such as **Internet exposure**, **Sensitive data** and **Vulnerabilities**. These factors are produced by Defender CSPM, which is enabled on this subscription, and they are how Defender expresses why a finding matters rather than merely what it is.
+3. Open one recommendation affecting an `asclab-*` resource that carries a risk factor, and record:
+   - **Risk level** and **Risk factors** — note that the risk level is Defender's environmental judgement and is not the same as a CVE severity.
+   - The **Description** and the affected resource.
+   - Under **General details**: **Scope**, **Last change date** and **Freshness**.
+   - **Tactics & techniques** — the MITRE ATT&CK mapping Defender assigns, for example *Initial Access*, *Exploit Public-Facing Application (T1190)*.
+   - Under **Take action**, open the **Graph** tab and record the resource context Defender used to determine the risk level.
+4. Write down the exposure chain this lab deploys, which you have now seen from both ends:
+   - `asclab-win` is internet-reachable and carries a **system-assigned managed identity**.
+   - That identity holds **Storage Blob Data Contributor** on the `asclabsa*` storage account.
+   - That storage account holds the container with `customer-records.json`, the synthetic sensitive records.
+   - The account still permits **anonymous (public) blob access**, so the container is reachable with no credentials at all.
+5. Close the direct exposure. Challenge 2 disabled the storage account's **network** access; anonymous blob access is a separate account-level setting that is still open.
+
+   Open the `asclabsa*` storage account in the lab resource group, select **Configuration** under **Settings**, set **Allow Blob anonymous access** to **Disabled**, and select **Save**. Wait for the update notification to complete.
+6. Return to **Configuration** and confirm **Allow Blob anonymous access** now reads **Disabled**. This is the graded state for this task.
+7. Return to **Recommendations** and refresh. If a recommendation covering anonymous or public blob access is listed for this account, confirm it moves to **Healthy**. If no such recommendation is listed, that is not a failure — continue.
 
 > [!Note]
-> Defender for Cloud assessments are asynchronous. If the recommendation remains unhealthy or shows an assessment-in-progress state, wait several minutes, refresh the recommendation details, and check again. If the portal still shows the old state, verify that the prescribed change was saved on the correct resource and subscription, then allow the next assessment cycle to complete before submitting. An attack path can remain listed for up to 24 hours after it is resolved; do not wait for the graph entry to disappear.
+> Defender for Cloud assessments are asynchronous. A recommendation can take several assessment cycles to reflect a change you have already saved. Do not wait on it: this task is graded on the storage account setting in step 6, which takes effect immediately, not on Defender's view of it.
 
 > [!Important]
-> The required result is the recommendation's **Healthy** remediation state. The graph path does not need to disappear, and no Secure Score value or delta is required.
+> The required result is **Allow Blob anonymous access** set to **Disabled** on the `asclabsa*` storage account. No Secure Score value or delta is required, and no attack path needs to appear or disappear.
+
+> [!Note]
+> **Why this task no longer uses Attack path analysis.** Attack path analysis is built by the cloud security graph and needs roughly 48 hours after **Defender CSPM is enabled** before it produces a path — not 48 hours after the lab deploys. Because CSPM is enabled during this lab, that clock starts when you start, so no attack path can appear within a single session. Defender has also narrowed attack paths to externally sourced threats. The risk factors, MITRE mapping and Graph tab used above come from the same cloud security graph and are available immediately, so they teach the same tracing skill without the wait.
 
 ## Task 4: Export the default MCSB compliance report
 
@@ -99,7 +115,7 @@ Perform a final state review before submitting the challenge.
 
 1. Confirm that **la-contoso-defender-recommendations** has the **When a Microsoft Defender for Cloud recommendation is created or triggered** trigger and exactly one **Compose** action containing the recommendation payload.
 2. Confirm that **war-contoso-high-severity-recommendations** is enabled, targets **la-contoso-defender-recommendations**, and is scoped to high-severity **recommendations only**, with no alert trigger.
-3. Confirm that the remediated attack-path recommendation is **Healthy**. The graph path does not need to disappear.
+3. Confirm that **Allow Blob anonymous access** is **Disabled** on the `asclabsa*` storage account.
 4. Confirm that the MCSB compliance report was downloaded in **CSV** format and retain the file as learner evidence.
 5. Submit the challenge and wait for the validation result.
 
@@ -107,7 +123,7 @@ Perform a final state review before submitting the challenge.
 
 ## Summary
 
-You created **la-contoso-defender-recommendations** with the supported **When a Microsoft Defender for Cloud recommendation is created or triggered** connector trigger and a single **Compose** action, connected it to the enabled recommendation-only rule **war-contoso-high-severity-recommendations**, remediated the attack-path recommendation to a **Healthy** state, and exported the already-applied MCSB evidence as CSV. The validation checks the concrete Azure resource states; it does not inspect the browser download, require Secure Score movement, or require attack-path removal.
+You created **la-contoso-defender-recommendations** with the supported **When a Microsoft Defender for Cloud recommendation is created or triggered** connector trigger and a single **Compose** action, connected it to the enabled recommendation-only rule **war-contoso-high-severity-recommendations**, traced the exposure of the sensitive records using Defender CSPM risk factors and the recommendation Graph, closed it by disabling anonymous blob access on the `asclabsa*` storage account, and exported the already-applied MCSB evidence as CSV. The validation checks the concrete Azure resource states; it does not inspect the browser download or require Secure Score movement.
 
 ## Conclusion
 

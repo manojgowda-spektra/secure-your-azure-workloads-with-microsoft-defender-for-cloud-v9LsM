@@ -7,8 +7,8 @@ Expected state for the six challenges in **Secure Your Azure Workloads with Micr
 - Lab resource group: the single CloudLabs-created group `ODL-DFC-<DeploymentID>`; region: whichever region CloudLabs deployed the group into. The jump box sits in it and contains only the CloudLabs access VM.
 - The ARM deployment owns the workload, identities, permissions, fixed container image, and pre-session Defender configuration. Learners do not recreate or bootstrap these resources.
 - Defender CSPM, Defender for Servers Plan 2, agentless machine scanning, and Defender for Endpoint integration were enabled and assessed before the session.
-- Grade resource/configuration state, recommendation state, alert presence, and evidence. Never require Secure Score movement, a Secure Score delta, or disappearance of an attack path.
-- For Challenge 6, grade the attack-path recommendation's remediation state only.
+- Grade resource/configuration state, recommendation state, alert presence, and evidence. Never require Secure Score movement or a Secure Score delta.
+- For Challenge 6 Task 3, grade the storage account's `allowBlobPublicAccess` setting only. Do not grade attack path analysis; see the marker's note on that task.
 
 Pinned values include VMs `asclab-win`, `asclab-win2`, and `asclab-linux`; ACR `asclabcr*`; AKS `asclab-aks`; image `contoso-vulnerable/aspnet-core:2.1`; custom standard `Contoso Secure Workload Baseline`; policy definition `2a1a9cdf-e04d-429a-8416-3bfb72a1b26f`; JIT maximum `PT3H`, source `Any`, and a learner request of 1 hour (the portal slider offers 1-3 hours only); Logic App `la-contoso-defender-recommendations`; and workflow rule `war-contoso-high-severity-recommendations`.
 
@@ -254,13 +254,21 @@ Validation: `validate-challenge-06`.
 
 **Full credit:** Name, enabled state, severity, recommendation-only restriction, and Logic App target are exact. **Partial:** correct target but disabled, or alerts are also selected. **Pitfalls:** selecting all events or Security alerts; confusing recommendation and alert severity; incorrect Logic App resource ID; saving before the connector trigger is available.
 
-### Task 3: Trace and remediate the attack-path recommendation
+### Task 3: Trace and close the exposure of the sensitive data
 
-**Expected:** Trace the pre-existing relationship from an internet-exposed VM through its over-permissioned system-assigned identity to the public storage account containing synthetic sensitive records. Remediate the recommendation that breaks the path; the attack-path recommendation is **Healthy**.
+**Expected:** The learner uses Defender CSPM risk analysis — the **Risk factors** filter, a recommendation's **Risk level**, **Tactics & techniques** and the **Take action > Graph** tab — to trace how the workload exposes the storage account holding the synthetic records, then disables **Allow Blob anonymous access** on the `asclabsa*` storage account.
 
-**Full credit:** Relationship, remediation, and healthy recommendation state are evidenced. **Partial:** identity or storage relationship is identified but remediation/state evidence is incomplete. **Pitfalls:** removing a VM or synthetic data; confusing `asclab-win` and `asclab-win2`; expecting graph disappearance; waiting for Secure Score movement.
+**Full credit:** The exposure chain is recorded (internet-reachable `asclab-win`, its system-assigned identity holding **Storage Blob Data Contributor**, the `asclabsa*` account, the container holding `customer-records.json`, and anonymous blob access) **and** anonymous blob access is Disabled. **Partial:** the chain is traced but the setting is not changed. **Pitfalls:** assuming Challenge 2 already closed this — Challenge 2 disables the account's *network* access, which is a different setting; removing a VM or the synthetic data; confusing `asclab-win` and `asclab-win2`; waiting for Secure Score movement.
 
-After remediation, allow ARM/RBAC propagation, Defender assessment, and attack-path recomputation. Refresh and poll again; do not undo correct remediation or alter topology to force graph disappearance. The validator retries transient API failures but does not turn eventual-consistency delay into credit.
+> **Marker's note — this task was redesigned on 10 Oct 2026 and the reason matters.**
+>
+> It previously required a **healthy attack-path recommendation**, and it was never passable. Attack path analysis is produced by the cloud security graph roughly 48 hours after **Defender CSPM is enabled**, not 48 hours after the lab deploys. On the test deployment CSPM was enabled 2026-10-08 12:41 UTC, so the window opened 2026-10-10 12:41 UTC — and the environment expired about nine hours before that. Attack paths read 0 at every check, in Resource Graph and in the portal blade ("No attack paths found").
+>
+> Because the learner enables CSPM *during* the lab, that clock starts when they start, and the lab is 7h35m. No learner working in order can ever reach an attack path. Defender has also narrowed attack paths to "only the most urgent, externally sourced threats", so the intended internet-exposed-VM-to-public-storage path may never be produced at all. It has not been observed on any of the three deployments tested.
+>
+> The replacement grades `allowBlobPublicAccess` on the storage account, which takes effect immediately and does not depend on Defender assessment timing. The investigation half still uses the cloud security graph — risk factors, MITRE mapping and the Graph tab were all populated and working throughout testing — so the tracing skill is preserved. **Do not re-introduce an attack-path requirement without first proving one appears in this lab.**
+>
+> Accept a learner who reports no anonymous-access recommendation listed in Defender; the guide tells them to continue, and the graded state is the storage setting, not Defender's view of it.
 
 ### Task 4: Export MCSB compliance evidence
 
@@ -277,7 +285,7 @@ az rest --method get --url "https://management.azure.com/subscriptions/$sub/prov
 az rest --method get --url "https://management.azure.com/subscriptions/$sub/providers/Microsoft.Logic/workflows/la-contoso-defender-recommendations?api-version=2019-05-01" -o json
 ```
 
-Inspect the automation JSON for enabled state, recommendation-only filtering, high severity, and Logic App target. Inspect the workflow definition/portal designer for the supported connector trigger display name and exactly one Compose action. Use Attack paths only to confirm recommendation health. Do not substitute Secure Score, a local-file check, or graph disappearance.
+Inspect the automation JSON for enabled state, recommendation-only filtering, high severity, and Logic App target. Inspect the workflow definition/portal designer for the supported connector trigger display name and exactly one Compose action. Read `allowBlobPublicAccess` on the `asclabsa*` account for Task 3. Do not substitute Secure Score or a local-file check, and do not reinstate an attack-path requirement.
 
 ## Cross-challenge troubleshooting
 
@@ -290,7 +298,7 @@ Inspect the automation JSON for enabled state, recommendation-only filtering, hi
 - **Identity and permissions:** verify the Windows VM system-assigned identity before interpreting Challenge 6; do not replace it with a user-assigned identity.
 - **JIT timing:** `PT3H` is the policy maximum, which the validator checks; the learner request is a separate 1-3 hour window chosen on a slider. Temporary rules appear and expire asynchronously.
 - **Logic App/Defender connector:** use the exact supported trigger **When a Microsoft Defender for Cloud recommendation is created or triggered**. Do not use an HTTP, alert, or recurrence trigger, or an extra Response/notification action. If the trigger is unavailable, confirm the correct connector, subscription, region, and permissions; do not substitute a generic trigger.
-- **Recommendation timing:** ARM remediation, Defender assessment, attack-path recomputation, and validator reads are asynchronous. Recheck after propagation; never infer success from one stale portal blade.
+- **Recommendation timing:** ARM remediation, Defender assessment, and validator reads are asynchronous. Recheck after propagation; never infer success from one stale portal blade. Note that Challenge 6 Task 3 is deliberately graded on a resource setting rather than a Defender assessment, so it is not subject to this delay.
 - **Portal/API mismatch:** use portal state for grading and CLI/REST as corroboration. A downloaded CSV is facilitator evidence, not validator-observable state.
 
 ## Final grading summary
@@ -302,6 +310,6 @@ Inspect the automation JSON for enabled state, recommendation-only filtering, hi
 | 3 | Three plans enabled and exact three sample-alert strings present and triaged | `validate-challenge-03` |
 | 4 | Containers enabled; fixed ACR findings, CVE/base-image lineage, and identical AKS image verified | `validate-challenge-04` |
 | 5 | JIT on both required VMs/ports with `PT3H` and `Any`, plus a bounded 1-hour request; agentless findings interpreted | `validate-challenge-05` |
-| 6 | Exact Logic App connector trigger and single Compose action, recommendation-only high-severity rule, and healthy attack-path recommendation; MCSB CSV retained as facilitator evidence only | `validate-challenge-06` |
+| 6 | Exact Logic App connector trigger and single Compose action, recommendation-only high-severity rule, and anonymous blob access disabled on `asclabsa*`; MCSB CSV retained as facilitator evidence only | `validate-challenge-06` |
 
-No full- or partial-credit decision is based on Secure Score movement, Secure Score delta, attack-path disappearance, or a learner's local CSV download. The Challenge 6 validator observes the Azure-side Logic App, automation rule, and recommendation state. Validation references are limited to `validate-challenge-01` through `validate-challenge-06`.
+No full- or partial-credit decision is based on Secure Score movement, Secure Score delta, attack path analysis, or a learner's local CSV download. The Challenge 6 validator observes the Azure-side Logic App, automation rule, and storage account setting. Validation references are limited to `validate-challenge-01` through `validate-challenge-06`.

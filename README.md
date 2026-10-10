@@ -4,7 +4,7 @@
 
 This advanced, Azure portal-only challenge lab gives learners Owner access to one subscription containing a deliberately vulnerable `asclab-*` workload in the single CloudLabs-created resource group. The ARM-owned workload includes three VMs, system-assigned identities and their storage/Key Vault permissions, synthetic sensitive blob records, three Key Vault secrets, SQL, and an ACR-imported fixed vulnerable image running on AKS. The workload is assessed for 48 hours before delivery so Defender CSPM, Defender for Servers Plan 2, agentless machine scanning, the cloud security graph, and baseline recommendations are available for investigation.
 
-Learners use Microsoft Defender for Cloud as the single control plane in an investigate-first, then remediate flow. They record a baseline without requiring secure-score movement, remediate storage, SQL, and Key Vault findings, create a custom security standard, enable workload protection plans, triage exact sample alerts, inspect the fixed vulnerable container image and its AKS runtime, configure JIT, automate high-severity recommendations, trace an attack path, and export compliance evidence. Defender workload plans, the custom standard, JIT policies, Logic App, and workflow automation rule are learner-created; no DevTestLab schedule is used.
+Learners use Microsoft Defender for Cloud as the single control plane in an investigate-first, then remediate flow. They record a baseline without requiring secure-score movement, remediate storage, SQL, and Key Vault findings, create a custom security standard, enable workload protection plans, triage exact sample alerts, inspect the fixed vulnerable container image and its AKS runtime, configure JIT, automate high-severity recommendations, trace and close the exposure of the sensitive data, and export compliance evidence. Defender workload plans, the custom standard, JIT policies, Logic App, and workflow automation rule are learner-created; no DevTestLab schedule is used.
 
 ## Lab Details
 
@@ -27,14 +27,14 @@ Learners use Microsoft Defender for Cloud as the single control plane in an inve
 3. **Protect workloads** — Enable Defender for Storage and Key Vault, enable Azure SQL Databases under the **Databases** plan, and triage the sample alert types `SIMULATED_Storage.Blob_OpenACL`, `SIMULATED_SQL.DB_PotentialSqlInjection` and a `SIMULATED_KV_*` alert.
 4. **Secure containers** — Enable Defender for Containers and inspect the per-package `Update <package>` findings for `asclabcr*.azurecr.io/contoso-vulnerable/aspnet-core`, record CVE identifier, CVSS and fix version from the **Associated CVEs** tab, and confirm the registry-to-runtime linkage by matching the packages reported against the stored **Container image** with those reported against the **Container** running in `asclab-aks`.
 5. **Harden VM access** — Configure JIT for `asclab-win` port 3389 and `asclab-linux` port 22 with maximum request duration `PT3H`, allowed source `Any`, then raise a bounded 1-hour access request; interpret pre-existing agentless results.
-6. **Automate and prove** — Create Logic App `la-contoso-defender-recommendations` with the Microsoft Defender for Cloud recommendation trigger `When a Microsoft Defender for Cloud recommendation is created or triggered` and one `Compose` action, create enabled recommendation-only workflow rule `war-contoso-high-severity-recommendations`, remediate the attack-path recommendation, and download an MCSB CSV report.
+6. **Automate and prove** — Create Logic App `la-contoso-defender-recommendations` with the Microsoft Defender for Cloud recommendation trigger `When a Microsoft Defender for Cloud recommendation is created or triggered` and one `Compose` action, create enabled recommendation-only workflow rule `war-contoso-high-severity-recommendations`, disable anonymous blob access on the `asclabsa*` storage account, and download an MCSB CSV report.
 
 ## Environment and Fixed Image
 
 The ARM deployment provisions the jump box and vulnerable workload, including:
 
 • VMs `asclab-win`, `asclab-win2`, and `asclab-linux`
-• System-assigned identities on both Windows VMs, with Storage Blob Data Contributor and Key Vault get/list permissions that support the Challenge 6 attack path
+• System-assigned identities on both Windows VMs, with Storage Blob Data Contributor and Key Vault get/list permissions that form the Challenge 6 exposure chain
 • Internet-exposed RDP on `asclab-win` and SSH on `asclab-linux` through an NSG
 • Storage account `asclabsa*` with an anonymous container `asclab-public-container` containing synthetic sensitive records
 • Key Vault `asclab-kv*` with three secrets
@@ -113,7 +113,7 @@ Preconfigured and soaked for 48 hours: Defender CSPM, Defender for Servers Plan 
 > cloud security graph, which only populate once the plans are enabled and a full scan cycle has
 > run.
 
-The workflow automation rule is a supported Defender for Cloud recommendation trigger: it is enabled, scoped to high-severity recommendations only, and targets the named Logic App. The six PowerShell validators check strict observable resource and Defender states, including the named standard, plans, sample alerts, fixed image, JIT values, automation objects, and healthy attack-path recommendation. Validators do not assert a secure-score value or delta, do not assert disappearance of an attack path, and do not inspect a browser CSV download. No RBAC artifact or Azure Policy artifact is included; the Challenge 2 standard uses the named built-in policy definition through Defender for Cloud's custom-standard experience rather than ARM deployment.
+The workflow automation rule is a supported Defender for Cloud recommendation trigger: it is enabled, scoped to high-severity recommendations only, and targets the named Logic App. The six PowerShell validators check strict observable resource and Defender states, including the named standard, plans, sample alerts, fixed image, JIT values, automation objects, and anonymous blob access disabled on the `asclabsa*` storage account. Validators do not assert a secure-score value or delta, do not use attack path analysis, and do not inspect a browser CSV download. No RBAC artifact or Azure Policy artifact is included; the Challenge 2 standard uses the named built-in policy definition through Defender for Cloud's custom-standard experience rather than ARM deployment.
 
 ## Package Contents
 

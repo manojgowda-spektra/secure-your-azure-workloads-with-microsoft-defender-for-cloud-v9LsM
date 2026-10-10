@@ -6,7 +6,7 @@ Contoso operates a deliberately vulnerable Azure workload in a single Azure regi
 
 ## Lab overview
 
-Complete six challenges in order: establish a baseline; remediate storage, SQL, and Key Vault; enable workload plans and triage sample alerts; investigate the fixed vulnerable container image; configure JIT and interpret agentless results; then automate recommendations, remediate the attack-path recommendation, and export compliance evidence.
+Complete six challenges in order: establish a baseline; remediate storage, SQL, and Key Vault; enable workload plans and triage sample alerts; investigate the fixed vulnerable container image; configure JIT and interpret agentless results; then automate recommendations, trace and close the exposure of the sensitive data, and export compliance evidence.
 
 ## Sign in
 
@@ -24,7 +24,7 @@ Complete six challenges in order: establish a baseline; remediate storage, SQL, 
 - Enable Storage, Key Vault, SQL, and Containers protection and triage exact sample-alert strings.
 - Analyze `contoso-vulnerable/aspnet-core:2.1` from source `mcr.microsoft.com/dotnet/core/aspnet:2.1` in `asclabcr*` and `asclab-aks`.
 - Configure JIT for ports `3389` and `22` with maximum `PT3H` and source `Any`, then raise a bounded 1-hour access request.
-- Create recommendation-only automation, verify a healthy attack-path recommendation, and export MCSB CSV evidence.
+- Create recommendation-only automation, close anonymous blob access on the `asclabsa*` storage account, and export MCSB CSV evidence.
 
 ## Architecture
 
@@ -68,7 +68,7 @@ flowchart LR
 | Logic App | Trigger `When a Microsoft Defender for Cloud recommendation is created or triggered`; one `Compose` action |
 | Compliance | Microsoft cloud security benchmark (MCSB), CSV |
 
-MCSB is applied by default. Validation uses prescribed resource and configuration state, not secure-score values or attack-path disappearance.
+MCSB is applied by default. Validation uses prescribed resource and configuration state, not secure-score values.
 
 ## How to use this guide
 

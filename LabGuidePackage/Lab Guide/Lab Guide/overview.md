@@ -27,11 +27,11 @@ Defender for Storage, Defender for Key Vault, Defender for SQL, and Defender for
 | 3 — Protect workloads | Enable three workload plans and triage the exact sample-alert type strings. |
 | 4 — Secure containers | Relate the fixed vulnerable ACR image to its MCR source and AKS runtime. |
 | 5 — Harden VM access | Configure JIT for ports 3389 and 22 with `PT3H` maximum duration and exercise a bounded 1-hour access request. |
-| 6 — Automate and prove | Create the Logic App with the exact supported trigger **When a Microsoft Defender for Cloud recommendation is created or triggered** and one **Compose** action, supported recommendation-only automation rule, healthy attack-path recommendation state, and MCSB CSV evidence. |
+| 6 — Automate and prove | Create the Logic App with the exact supported trigger **When a Microsoft Defender for Cloud recommendation is created or triggered** and one **Compose** action, supported recommendation-only automation rule, anonymous blob access disabled on the `asclabsa*` storage account, and MCSB CSV evidence. |
 
 ## Assessment boundary
 
-Validation checks Azure and Defender resource state. It does not require a secure-score value or movement, and it does not require an attack path to disappear. The Microsoft cloud security benchmark (MCSB) is already applied by default; no add-standard step is required for it. Sample alerts use simulated resources and therefore do not identify the deployed `asclabsa*` storage account.
+Validation checks Azure and Defender resource state. It does not require a secure-score value or movement, and it does not use attack path analysis. The Microsoft cloud security benchmark (MCSB) is already applied by default; no add-standard step is required for it. Sample alerts use simulated resources and therefore do not identify the deployed `asclabsa*` storage account.
 
 Continue with [Getting Started](./GettingStarted-V2.md), then complete the six challenge pages in order.
 
